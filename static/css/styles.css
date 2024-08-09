@@ -1,0 +1,52 @@
+
+
+body {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    background-color: #ebded5;
+    font-size: small;
+    color: #393734;
+    
+}
+
+header {
+    padding-left: 2px;
+    padding-right: 2px;
+
+}
+
+main {
+    
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#title {
+    font-size: x-large !important;
+}
+
+.top-button {
+    color: #393734;
+    border-color: black;
+}
+
+.create_li{
+    word-break: break-all;
+    overflow-wrap: break-word;
+    list-style-type: none;
+    
+}
+
+
+input, textarea{
+    width: 100%;
+}
+
+
+.topbar {
+    border-bottom: 2px solid #716a64;
+}
+
+
+
+
+

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>New Recipe</title>
+    {% load static %}
+    <script src="{% static 'recipes/js/create.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'create' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>New Recipe</h1></legend>
+        <div class="form-group">
+            <label for="colFormLabel">Title</label>
+            <div>
+                <input type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="colFormLabel" class="col-sm-2 col-form-label col-form-label">Description</label>
+            <div>
+                <textarea type="text"></textarea>
+            </div>
+        </div>
+        <div id="instruct">
+            <div class="form-group" id="instruct-form" name="instructions" data-assosiated-list="instruct-list">
+                    <label for="colFormLabel" class="col-2 col-form-label col-form-label">Instructions</label>
+                    <div>
+                        <textarea id="instruct_txt" type="text" onkeydown="enter(event)" class="create-ins"></textarea>
+                    </div>
+                    <div class="col-4">
+                        <button id="instruct_add" class="add btn btn-dark btn-sm"  data-assosiated-element="instruct-form" onclick="nextItem(event)"  type="button">Add</button>
+                    </div>
+            </div>
+            <div class="row">
+                <ol id="instruct-list"></ol>
+            </div>
+        </div>
+        <!-- Add Ingredient button -->
+        <div class="form-group" id="ingredient-form" name="ingredients" data-assosiated-list="ingredients-list">
+            <label class="col col-form-label col-form-label>">Ingredients</label>
+            <div class="row" style="padding-bottom: 7px">
+                <div class="col-4">
+                    <input type="text" class="wide-input create-ins" placeholder="Ingredient">
+                </div>
+                <div class="col-4">
+                    <input type="text" placeholder="Quantity" class="create-ins">
+                </div>
+                <div class="col-4">
+                    <select name="measurement" default="Measurement" class="ing-opt create-ins">
+                        <option value="Placeholder"  selected disabled >Measurement</option>
+                        {% for measurement in measurements %}
+                        <option value="{{measurement}}">{{measurement}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <!-- Add button -->
+             <div class="row">
+                <div class="col-4">
+                    <button id="ing_add" class="add btn btn-dark btn-sm" data-assosiated-element="ingredient-form" onclick="nextItem(event)" type="button">Add</button>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <ol id="ingredients-list"></ol>
+        </div>
+    </fieldset>
+    </form>
+
+    <template id="item_template">
+        <li id="item">
+            <div class="row">
+                <div class="col-7">
+                    <!-- <label for="create_li"></label> -->
+                    <p class="create_li" name="bootstrapTextbox"></p>
+                </div>
+                <div class="col-3">
+                    <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="removeNew(event)">Delete</button>
+                </div>
+            </div>
+        </li>
+    </template>
+{% endblock %}
