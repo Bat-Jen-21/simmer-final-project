@@ -27,7 +27,7 @@
             <div class="form-group" id="instruct-form" name="instructions" data-assosiated-list="instruct-list">
                     <label for="colFormLabel" class="col-2 col-form-label col-form-label">Instructions</label>
                     <div>
-                        <textarea id="instruct_txt" type="text" onkeydown="enter(event)" class="create-ins"></textarea>
+                        <textarea id="instruct_txt" data-assosiated-element="instruct-form" type="text" onkeydown="enter(event)" class="create-ins"></textarea>
                     </div>
                     <div class="col-4">
                         <button id="instruct_add" class="add btn btn-dark btn-sm"  data-assosiated-element="instruct-form" onclick="nextItem(event)"  type="button">Add</button>
@@ -42,10 +42,10 @@
             <label class="col col-form-label col-form-label>">Ingredients</label>
             <div class="row" style="padding-bottom: 7px">
                 <div class="col-4">
-                    <input type="text" class="wide-input create-ins" placeholder="Ingredient">
+                    <input type="text" class="wide-input create-ins" placeholder="Ingredient" onkeydown="enter(event)" data-assosiated-element="ingredient-form">
                 </div>
                 <div class="col-4">
-                    <input type="text" placeholder="Quantity" class="create-ins">
+                    <input type="text" placeholder="Quantity" class="create-ins" onkeydown="enter(event)" data-assosiated-element="ingredient-form">
                 </div>
                 <div class="col-4">
                     <select name="measurement" default="Measurement" class="ing-opt create-ins">
@@ -77,7 +77,7 @@
                     <p class="create_li" name="bootstrapTextbox"></p>
                 </div>
                 <div class="col-3">
-                    <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="removeNew(event)">Delete</button>
+                    <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="remove(event)">Delete</button>
                 </div>
             </div>
         </li>
