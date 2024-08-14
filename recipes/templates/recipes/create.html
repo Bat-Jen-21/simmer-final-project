@@ -34,7 +34,9 @@
                     </div>
             </div>
             <div class="row">
-                <ol id="instruct-list"></ol>
+                <div class="col-12">
+                    <ol id="instruct-list"></ol>
+                </div>
             </div>
         </div>
         <!-- Add Ingredient button -->
@@ -64,22 +66,54 @@
             </div>
         </div> 
         <div class="row">
-            <ol id="ingredients-list"></ol>
+            <div class="col-12">
+                <ol id="ingredients-list"></ol>
+            </div>
         </div>
+
+        <div class="form-group" name="Serves">
+            <label class="col col-form-label col-form-label>">Serves</label>
+            <div class="row">
+                <div class="col-4">
+                    <input type="number" placeholder="Serves">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-3">
+                    <button type="submit" value="Submit" class="btn btn-dark btn-sm" style="margin-top: 8px">Create Recipe</button>
+                </div>
+            </div>
+        </div>
+
+        <ul>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+            
+        </ul>
     </fieldset>
     </form>
 
     <template id="item_template">
-        <li id="item">
-            <div class="row">
-                <div class="col-7">
-                    <!-- <label for="create_li"></label> -->
-                    <p class="create_li" name="bootstrapTextbox"></p>
+            <li id="item">
+                <div class="row">
+                    <div class="col-7">
+                        <!-- <label for="create_li"></label> -->
+                        <p class="create_li" name="bootstrapTextbox"></p>
+                    </div>
+                    <div class="col-3">
+                        <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="removeNew(event)">Delete</button>
+                    </div>
                 </div>
-                <div class="col-3">
-                    <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="removeNew(event)">Delete</button>
-                </div>
-            </div>
-        </li>
+            </li>
     </template>
 {% endblock %}

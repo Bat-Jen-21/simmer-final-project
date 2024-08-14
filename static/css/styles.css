@@ -46,6 +46,21 @@ input, textarea{
     border-bottom: 2px solid #716a64;
 }
 
+ol#instruct-list, ol#ingredients-list {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-position: inside; /* Optional, controls where list markers are rendered */
+}
+
+.hdr{
+    background-color: #ebded5 ;
+}
+
+.header-main-stack{
+    display: flex;
+    flex-direction: column;
+}
+
 
 
 

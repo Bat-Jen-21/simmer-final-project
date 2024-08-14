@@ -50,6 +50,11 @@ function nextItem(event){
     let newText = ""; 
 
     if (which.getAttribute("name") === "ingredients"){
+        // Check the value is an int
+        if ((isNaN(ins[1].value))){
+            alert("Amount must be a number");
+            return; 
+        }
         newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value)
     }
     else newText = String(ins[0].value)
