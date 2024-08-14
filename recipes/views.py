@@ -1,5 +1,5 @@
-from django.shortcuts import render, HttpResponse
-from django.http import Http404
+from django.shortcuts import render, HttpResponse, redirect
+from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
 
 # Create your views here.
@@ -27,9 +27,20 @@ def view_recipe(request, recipe_id):
         }
     return render(request, "recipes/view.html", context)
 
-def create_recipe(request):
+def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
     context = {
         "measurements": measurements
     }
     return render(request, "recipes/create.html", context)
+
+def create_submit(request):
+    #Input validation 
+    #///////////////////////////////////////////////
+
+    #Getting post form Data
+    for key in request.POST:
+        print(key)
+
+    #Currently redirects to the main page for now
+    return redirect("index")

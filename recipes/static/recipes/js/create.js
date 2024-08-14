@@ -1,7 +1,8 @@
 // Create some responsive javascript for my website
 
 // Can i use the .length to avoid using a const steps
-var steps = 1
+var instruct_steps = 0
+var ingredients_steps = 0
 var instructions = []
 var ingredients = []
 
@@ -20,15 +21,16 @@ function remove(event){
     console.log(x)
     x.remove()
     // Pop from the list
-    instructions.pop()
+    // instructions.pop()
     //steps = instructions.length + 1;
 }
 
 // Create a clone of the javascript creating and removing elents so they can be used in a genral setting
 
 function nextItem(event){
+    let idNumber = 0
+    let value = ""
     let which = document.getElementById(event.srcElement.dataset.assosiatedElement);
-    console.log(event.srcElement)
     //ClientSide check for blank input by selecting all input elements and checking for blanks
     let ins = which.querySelectorAll("input, textarea, select")
     for (let i of ins){
@@ -55,9 +57,21 @@ function nextItem(event){
             alert("Amount must be a number");
             return; 
         }
-        newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value)
+        for (item in ins){
+            value += item.value + ",##7585"
+        }
+        newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value)  
+        ingredients_steps += 1;
+        idNumber = ingredients_steps
+        console.log(ins.values())
     }
-    else newText = String(ins[0].value)
+    else {
+        newText = String(ins[0].value)
+        value = newText
+    }
+  
+    instruct_steps += 1;
+    idNumber = instruct_steps
 
     // Apply the text
     let txt = newStep.querySelector("p");
@@ -67,24 +81,17 @@ function nextItem(event){
     let container = newStep.querySelector("li");
     let button = newStep.querySelector("button");
     //button.dataset.assosiatedElement = container.id;
+
+    // Add the hiddent elements to the form
+    let hidden = newStep.querySelector("input")
+    hidden.name = which.getAttribute("name") + idNumber
+    hidden.className = "list-submit-item"
+    hidden.value = value
+
+    //console.log(which)
+
     document.getElementById(which.getAttribute("data-assosiated-list")).appendChild(newStep);
     
     return
-    
-    // Create and insert in the previous instruction as a paragraph
-    // Get access to child nodes
-    
-    
-    var h = newStep.querySelector("label")
-
-    //Add information to child nodes
-    h.innerHTML = "Step " + steps + ": ";
-    text.innerHTML = document.getElementById("instruct_txt").value;
-    text.name = "I" + steps;
-    container.id = "I" + steps;
-    instructions.push(container.id)
-    button.dataset.assosiatedElement = container.id;
-    
-    document.getElementById("instruct_txt").value = "";
 
 }

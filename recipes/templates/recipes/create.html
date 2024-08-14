@@ -7,27 +7,27 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{% url 'create' %}" method="post">
+    <form action="{% url 'submit' %}" method="post">
     {% csrf_token %}
     <fieldset>
         <legend><h1>New Recipe</h1></legend>
         <div class="form-group">
-            <label for="colFormLabel">Title</label>
+            <label for="title">Title</label>
             <div>
-                <input type="text">
+                <input type="text" name="title" id="title">
             </div>
         </div>
         <div class="form-group">
-            <label for="colFormLabel" class="col-sm-2 col-form-label col-form-label">Description</label>
+            <label for="description" class="col-sm-2 col-form-label col-form-label">Description</label>
             <div>
-                <textarea type="text"></textarea>
+                <textarea type="text" name="description" id="description"></textarea>
             </div>
         </div>
         <div id="instruct">
             <div class="form-group" id="instruct-form" name="instructions" data-assosiated-list="instruct-list">
                     <label for="colFormLabel" class="col-2 col-form-label col-form-label">Instructions</label>
                     <div>
-                        <textarea id="instruct_txt" data-assosiated-element="instruct-form" type="text" onkeydown="enter(event)" class="create-ins"></textarea>
+                        <textarea id="instruct_txt" data-assosiated-element="instruct-form" type="text" onkeydown="enter(event)" class="create-ins" name="instruction"></textarea>
                     </div>
                     <div class="col-4">
                         <button id="instruct_add" class="add btn btn-dark btn-sm"  data-assosiated-element="instruct-form" onclick="nextItem(event)"  type="button">Add</button>
@@ -64,18 +64,20 @@
                     <button id="ing_add" class="add btn btn-dark btn-sm" data-assosiated-element="ingredient-form" onclick="nextItem(event)" type="button">Add</button>
                 </div>
             </div>
-        </div> 
-        <div class="row">
-            <div class="col-12">
-                <ol id="ingredients-list"></ol>
+
+            <div class="row">
+                <div class="col-12">
+                    <ol id="ingredients-list"></ol>
+                </div>
             </div>
-        </div>
+        </div> 
+        
 
         <div class="form-group" name="Serves">
             <label class="col col-form-label col-form-label>">Serves</label>
             <div class="row">
                 <div class="col-4">
-                    <input type="number" placeholder="Serves">
+                    <input type="number" placeholder="Serves" id="serves" name="serves">
                 </div>
             </div>
         </div>
@@ -83,7 +85,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-3">
-                    <button type="submit" value="Submit" class="btn btn-dark btn-sm" style="margin-top: 8px">Create Recipe</button>
+                    <button type="submit" value="Submit" class="btn btn-dark btn-sm" style="margin-top: 8px" onkeydown="">Create Recipe</button>
                 </div>
             </div>
         </div>
@@ -108,10 +110,11 @@
                 <div class="row">
                     <div class="col-7">
                         <!-- <label for="create_li"></label> -->
+                        <input type="hidden" value="" id="">
                         <p class="create_li" name="bootstrapTextbox"></p>
                     </div>
                     <div class="col-3">
-                        <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="removeNew(event)">Delete</button>
+                        <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="remove(event)">Delete</button>
                     </div>
                 </div>
             </li>
