@@ -28,13 +28,14 @@ function remove(event){
 // Create a clone of the javascript creating and removing elents so they can be used in a genral setting
 
 function nextItem(event){
-    let idNumber = 0
     let value = ""
     let which = document.getElementById(event.srcElement.dataset.assosiatedElement);
+    targetName = which.getAttribute("name")
     //ClientSide check for blank input by selecting all input elements and checking for blanks
     let ins = which.querySelectorAll("input, textarea, select")
     for (let i of ins){
         if (i.value.trim() ==="" || i.value.trim() == "Placeholder"){
+            console.log(i.value)
             alert("Box cannot be blank");
             return;
         }
@@ -51,7 +52,7 @@ function nextItem(event){
     let text = newStep.querySelector("li");
     let newText = ""; 
 
-    if (which.getAttribute("name") === "ingredients"){
+    if (targetName === "ingredients"){
         // Check the value is an int
         if ((isNaN(ins[1].value))){
             alert("Amount must be a number");
@@ -60,35 +61,25 @@ function nextItem(event){
         for (let x = 0; x < ins.length; x++){
             value += ins[x].value + ",//,"
         }
-        newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value)  
-        ingredients_steps += 1;
-        idNumber = ingredients_steps
-        console.log(ins.values())
+        newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value) 
+        // Creating one large string for instructions to split in python
+        value = String(ins[0].value) + "%%" + String(ins[1].value) + "%%" + String(ins[2].value) + "`^"   
     }
     else {
         newText = String(ins[0].value)
-        value = newText
+        //This is the Next Value key
+        value = newText + "`^"
     }
-  
-    instruct_steps += 1;
-    idNumber = instruct_steps
-
     // Apply the text
     let txt = newStep.querySelector("p");
     txt.innerHTML = newText;
-    
-    // Add morqe attributes
-    let container = newStep.querySelector("li");
-    let button = newStep.querySelector("button");
-    //button.dataset.assosiatedElement = container.id;
 
-    // Add the hiddent elements to the form
-    let hidden = newStep.querySelector("input")
-    hidden.name = which.getAttribute("name") + idNumber
-    hidden.className = "list-submit-item"
-    hidden.value = value
+    // Add the hiddent elements to the form"
+    if (which.getAttribute("name") === "instructions"){
 
-    //console.log(which)
+    }
+    list = document.getElementById(targetName + "-submit-list")
+    console.log(list)
 
     document.getElementById(which.getAttribute("data-assosiated-list")).appendChild(newStep);
     
