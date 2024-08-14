@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -40,7 +41,10 @@ def create_submit(request):
 
     #Getting post form Data
     for key in request.POST:
-        print(key)
+        print("Key =" + key)
+        print(request.POST[key])
+
+    # Now we have access to the data do something with it     
 
     #Currently redirects to the main page for now
-    return redirect("index")
+    return redirect(reverse("index"))

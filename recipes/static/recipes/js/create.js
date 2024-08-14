@@ -57,8 +57,8 @@ function nextItem(event){
             alert("Amount must be a number");
             return; 
         }
-        for (item in ins){
-            value += item.value + ",##7585"
+        for (let x = 0; x < ins.length; x++){
+            value += ins[x].value + ",//,"
         }
         newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value)  
         ingredients_steps += 1;
