@@ -35,7 +35,6 @@ function nextItem(event){
     let ins = which.querySelectorAll("input, textarea, select")
     for (let i of ins){
         if (i.value.trim() ==="" || i.value.trim() == "Placeholder"){
-            console.log(i.value)
             alert("Box cannot be blank");
             return;
         }
@@ -58,9 +57,6 @@ function nextItem(event){
             alert("Amount must be a number");
             return; 
         }
-        for (let x = 0; x < ins.length; x++){
-            value += ins[x].value + ",//,"
-        }
         newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value) 
         // Creating one large string for instructions to split in python
         value = String(ins[0].value) + "%%" + String(ins[1].value) + "%%" + String(ins[2].value) + "`^"   
@@ -74,15 +70,20 @@ function nextItem(event){
     let txt = newStep.querySelector("p");
     txt.innerHTML = newText;
 
-    // Add the hiddent elements to the form"
-    if (which.getAttribute("name") === "instructions"){
-
+    // Add the hiddent elements to the form as one large string seperated by special characters
+    if (targetName === "instructions"){
+        list = document.getElementById("instruction-submit-list")
     }
-    list = document.getElementById(targetName + "-submit-list")
-    console.log(list)
+    else if (targetName === "ingredients"){
+        list = document.getElementById("ingredient-submit-list")
+    }
+    list.value += value
 
     document.getElementById(which.getAttribute("data-assosiated-list")).appendChild(newStep);
-    
-    return
 
+    // Clear the input forms for the targeted region
+    for (let part of parts){
+        part.value = ""
+    }
+    return
 }

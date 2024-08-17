@@ -30,14 +30,24 @@ def view_recipe(request, recipe_id):
 
 def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
+    # Adding in the session data
+    prefill = request.session.pop("form_data", None) 
+    errors = request.session.pop("errors", None)
     context = {
-        "measurements": measurements
+        "measurements": measurements,
+        "prefill": prefill,
+        "errors": errors
+
     }
     return render(request, "recipes/create.html", context)
 
 def create_submit(request):
     #Input validation 
     #///////////////////////////////////////////////
+    for key in request.POST:
+        if request.POST[key].strip() == "":
+            return redirect(reverse("create_display"))
+
 
     #Getting post form Data
     for key in request.POST:
