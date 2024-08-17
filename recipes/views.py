@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
 from django.urls import reverse
+from . import helpers
 
 # Create your views here.
 def index(request):
@@ -31,28 +32,42 @@ def view_recipe(request, recipe_id):
 def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
     # Adding in the session data
-    prefill = request.session.pop("form_data", None) 
+    form_data = request.session.pop("form_data", None)
+    errors = request.session.pop("errors", None)
+    print(form_data)
+    if form_data:
+        print(helpers.decode(form_data["instructions"]))
+    print(f"errors {errors}")
     errors = request.session.pop("errors", None)
     context = {
         "measurements": measurements,
-        "prefill": prefill,
+        "form_data": form_data,
         "errors": errors
 
     }
     return render(request, "recipes/create.html", context)
 
 def create_submit(request):
+    errors = []
+    #Getting post form Data
+    title = request.POST.get("title")
+    description = request.POST.get("description")
+    instructions = [request.POST.get("instruction-submit-list")]
+    ingredients = [request.POST.get("ingredient-submit-list")]
+    serves = request.POST.get("serves")
+
     #Input validation 
     #///////////////////////////////////////////////
     for key in request.POST:
         if request.POST[key].strip() == "":
-            return redirect(reverse("create_display"))
+            errors.append(key)
+    
+    if len(errors) > 0:
+        print("REDIRECTING")
+        request.session["errors"] = errors
+        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves}
+        return redirect(reverse("create_display"))
 
-
-    #Getting post form Data
-    for key in request.POST:
-        print("Key =" + key)
-        print(request.POST[key])
 
     # Now we have access to the data do something with it     
 

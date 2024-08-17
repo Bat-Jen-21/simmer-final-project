@@ -64,7 +64,7 @@ function nextItem(event){
     else {
         newText = String(ins[0].value)
         //This is the Next Value key
-        value = newText + "`^"
+        value = "`^" + newText  
     }
     // Apply the text
     let txt = newStep.querySelector("p");
