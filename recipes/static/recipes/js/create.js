@@ -1,5 +1,3 @@
-// Create some responsive javascript for my website
-
 // Can i use the .length to avoid using a const steps
 var instruct_steps = 0
 var ingredients_steps = 0
@@ -13,32 +11,41 @@ function enter(event){
 }
 
 function remove(event){
-    x = document.getElementById(event.srcElement.dataset.assosiatedElement);
-    var remove_index = instructions.indexOf(x.id);
-    console.log(instructions[remove_index])
-
-    // Remove the element from end of the list and the document object
-    console.log(x)
-    x.remove()
-    // Pop from the list
-    // instructions.pop()
-    //steps = instructions.length + 1;
+    let toRemove = document.getElementById(event.srcElement.dataset.assosiatedElement);
+    let value = toRemove.querySelector("p").innerHTML;
+    document.getElementsById(toRemove.dataset.assosiatedList).value.search(/value/)
 }
 
 // Create a clone of the javascript creating and removing elents so they can be used in a genral setting
 
-function nextItem(event){
+
+//This whole function is trash and should be destroyed
+function nextItem(event = "x", gen = "x", gen_values = "" ){
+    let ins = []
+    var which
     let value = ""
-    let which = document.getElementById(event.srcElement.dataset.assosiatedElement);
-    targetName = which.getAttribute("name")
-    //ClientSide check for blank input by selecting all input elements and checking for blanks
-    let ins = which.querySelectorAll("input, textarea, select")
-    for (let i of ins){
-        if (i.value.trim() ==="" || i.value.trim() == "Placeholder"){
-            alert("Box cannot be blank");
-            return;
+    if (gen === "x"){
+        which = document.getElementById(event.srcElement.dataset.assosiatedElement);
+        let insOb = which.querySelectorAll("input, textarea, select");
+        for (i of insOb){
+            ins.push(i.value)
+        }
+        for (let i of ins){
+            if (i.trim() ==="" || i.trim() == "Placeholder"){
+                alert("Box cannot be blank");
+                return;
+            }
+    }
+    }
+    else {
+        which = document.getElementById(gen)
+        for (value of gen_values){
+            ins.push(value);
         }
     }
+    targetName = which.getAttribute("name")
+    //ClientSide check for blank input by selecting all input elements and checking for blanks
+    
 
     // clone the template node
     var newStep = document.getElementById("item_template").content.cloneNode(true);
@@ -48,23 +55,26 @@ function nextItem(event){
     //console.log(parts);
 
     // Add the text to the function
-    let text = newStep.querySelector("li");
+    // let text = newStep.querySelector("li");
     let newText = ""; 
 
     if (targetName === "ingredients"){
         // Check the value is an int
-        if ((isNaN(ins[1].value))){
+        if ((isNaN(ins[1]))){
             alert("Amount must be a number");
             return; 
         }
-        newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value) 
+        newText = String(ins[1]) + " " + String(ins[2]).toLowerCase() + " of "  + String(ins[0]) 
         // Creating one large string for instructions to split in python
-        value = String(ins[0].value) + "%%" + String(ins[1].value) + "%%" + String(ins[2].value) + "`^"   
+        value = String(ins[0]) + "%%" + String(ins[1]) + "%%" + String(ins[2]) + "`^"   
+
+        ingredients.push(newText)
     }
     else {
-        newText = String(ins[0].value)
+        newText = String(ins[0])
         //This is the Next Value key
         value = "`^" + newText  
+        instructions.push(newText)
     }
     // Apply the text
     let txt = newStep.querySelector("p");
@@ -86,4 +96,28 @@ function nextItem(event){
         part.value = ""
     }
     return
+}
+
+window.onload = function(){
+    if (formDataJson === null){
+        return
+    }
+    else{
+        generateList()
+    }
+}
+
+// It's generating the list even after I delete Items
+function generateList(){
+    if (formDataJson["ingredients"].length > 0){
+        iList = document.getElementById("ingredients-list")
+        for (let i of formDataJson["ingredients"]){
+            nextItem("x", "ingredient-form",i )
+        }
+    }
+    if (formDataJson["instructions"].length > 0){
+        for (let i of formDataJson["instructions"]){
+            nextItem("x","instruct-form",i)
+        }
+    }
 }

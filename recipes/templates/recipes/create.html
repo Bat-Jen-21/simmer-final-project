@@ -10,17 +10,18 @@
     <form action="{% url 'submit' %}" method="post">
     {% csrf_token %}
     <fieldset>
+        <script type="text/javascript"> var formDataJson = JSON.parse('{{ formDataJson|escapejs }}'); </script>
         <legend><h1>New Recipe</h1></legend>
         <div class="form-group">
             <label for="title">Title</label>
             <div>
-                <input type="text" name="title" id="title" value="{{ form_data.title|default:'' }}">
+                <input type="text" name="title" id="title" value="{{ formData.title|default:'' }}">
             </div>
         </div>
         <div class="form-group">
             <label for="description" class="col-sm-2 col-form-label col-form-label">Description</label>
             <div>
-                <textarea type="text" name="description" id="description" value="">{{ form_data.description|default:'' }}</textarea>
+                <textarea type="text" name="description" id="description" value="">{{ formData.description|default:'' }}</textarea>
             </div>
         </div>
         <div id="instruct">
@@ -36,11 +37,6 @@
             <div class="row">
                 <div class="col-12">
                     <ol id="instruct-list">
-                        {% for instruct in form_data.instructions %}
-                            {% if instruct != "" %}
-                                <li>{{ instuct }}</li>
-                            {% endif %}
-                        {% endfor %}
                     </ol>
                 </div>
             </div>
@@ -61,7 +57,9 @@
                     <select name="measurement" default="Measurement" class="ing-opt create-ins">
                         <option value="Placeholder"  selected disabled >Measurement</option>
                         {% for measurement in measurements %}
-                        <option value="{{measurement}}">{{measurement}}</option>
+                                {% if measurement != "" %}
+                                    <option value="{{measurement}}">{{measurement}}</option>
+                                {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -83,12 +81,11 @@
         </div> 
         <input type="hidden" id="ingredient-submit-list" name="ingredient-submit-list">
         
-
         <div class="form-group" name="Serves">
             <label class="col col-form-label col-form-label>">Serves</label>
             <div class="row">
                 <div class="col-4">
-                    <input type="number" placeholder="Serves" id="serves" name="serves" value="{{ form_data.serves|default:'' }}">
+                    <input type="number" placeholder="Serves" id="serves" name="serves" value="{{ formData.serves|default:'' }}">
                 </div>
             </div>
         </div>
@@ -116,4 +113,6 @@
                 </div>
             </li>
     </template>
+
+    
 {% endblock %}

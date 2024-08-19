@@ -3,6 +3,7 @@ from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
 from django.urls import reverse
 from . import helpers
+import json
 
 # Create your views here.
 def index(request):
@@ -34,14 +35,15 @@ def create_display(request):
     # Adding in the session data
     form_data = request.session.pop("form_data", None)
     errors = request.session.pop("errors", None)
-    print(form_data)
     if form_data:
-        print(helpers.decode(form_data["instructions"]))
-    print(f"errors {errors}")
+        form_data["instructions"] = helpers.decode(form_data["instructions"])
+        form_data["ingredients"] = helpers.decode(form_data["ingredients"])
     errors = request.session.pop("errors", None)
+    print(form_data)
     context = {
         "measurements": measurements,
-        "form_data": form_data,
+        "formDataJson": json.dumps(form_data),
+        "formData": form_data,
         "errors": errors
 
     }
