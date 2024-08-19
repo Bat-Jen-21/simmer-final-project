@@ -2,7 +2,6 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
 from django.urls import reverse
-from . import helpers
 import json
 
 # Create your views here.
@@ -35,10 +34,6 @@ def create_display(request):
     # Adding in the session data
     form_data = request.session.pop("form_data", None)
     errors = request.session.pop("errors", None)
-    if form_data:
-        form_data["instructions"] = helpers.decode(form_data["instructions"])
-        form_data["ingredients"] = helpers.decode(form_data["ingredients"])
-    errors = request.session.pop("errors", None)
     print(form_data)
     context = {
         "measurements": measurements,
@@ -52,12 +47,13 @@ def create_display(request):
 def create_submit(request):
     errors = []
     #Getting post form Data
+    # print(request.POST)
     title = request.POST.get("title")
     description = request.POST.get("description")
-    instructions = [request.POST.get("instruction-submit-list")]
-    ingredients = [request.POST.get("ingredient-submit-list")]
+    instructions = request.POST.getlist("list-element:instructions")
+    ingredients = request.POST.getlist("list-element:ingredients")
     serves = request.POST.get("serves")
-
+    #print(request.POST)
     #Input validation 
     #///////////////////////////////////////////////
     for key in request.POST:
