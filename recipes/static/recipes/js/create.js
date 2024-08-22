@@ -1,7 +1,6 @@
-// Create some responsive javascript for my website
-
 // Can i use the .length to avoid using a const steps
-var steps = 1
+var instruct_steps = 0
+var ingredients_steps = 0
 var instructions = []
 var ingredients = []
 
@@ -12,79 +11,97 @@ function enter(event){
 }
 
 function remove(event){
-    x = document.getElementById(event.srcElement.dataset.assosiatedElement);
-    var remove_index = instructions.indexOf(x.id);
-    console.log(instructions[remove_index])
-
-    // Remove the element from end of the list and the document object
-    console.log(x)
-    x.remove()
-    // Pop from the list
-    instructions.pop()
-    //steps = instructions.length + 1;
+    let toRemove = document.getElementById(event.srcElement.dataset.assosiatedElement);
+    toRemove.remove()
 }
 
 // Create a clone of the javascript creating and removing elents so they can be used in a genral setting
 
-function nextItem(event){
-    let which = document.getElementById(event.srcElement.dataset.assosiatedElement);
-    console.log(event.srcElement)
-    //ClientSide check for blank input by selecting all input elements and checking for blanks
-    let ins = which.querySelectorAll("input, textarea, select")
-    for (let i of ins){
-        if (i.value.trim() ==="" || i.value.trim() == "Placeholder"){
-            alert("Box cannot be blank");
-            return;
-        }
+function nextItem(event = "x", gen = "x", gen_values = "" ){
+    let ins = []
+    let value = ""
+    let newText = []; 
+
+    if (gen === "x"){
+        var which = document.getElementById(event.srcElement.dataset.assosiatedElement);
+    }
+    else{
+        var which = document.getElementById(gen);
     }
 
-    // clone the template node
+    let targetName = which.getAttribute("name")
+
+    if (gen === "x"){
+        let insOb = which.querySelectorAll("input, textarea, select");
+        for (i of insOb){
+            ins.push(i.value)
+        }
+        for (let i of ins){
+            if (i.trim() ==="" || i.trim() == "Placeholder"){
+                alert("Box cannot be blank");
+                return;
+            }
+    }
+
+        if (targetName === "ingredients"){
+            // Check the value is an int
+            if ((isNaN(ins[1]))){
+                alert("Amount must be a number");
+                return; 
+            }
+            newText = String(ins[1]) + " " + String(ins[2]).toLowerCase() + " of "  + String(ins[0]) 
+        }
+        else {
+            newText = String(ins[0])
+        }
+    }
+    else {
+        newText = gen_values;
+    }
+    
     var newStep = document.getElementById("item_template").content.cloneNode(true);
-
-    // Iterate through the nodes content and apply that to the template
-    let parts = which.querySelectorAll(".create-ins")
-    //console.log(parts);
-
-    // Add the text to the function
-    let text = newStep.querySelector("li");
-    let newText = ""; 
-
-    if (which.getAttribute("name") === "ingredients"){
-        // Check the value is an int
-        if ((isNaN(ins[1].value))){
-            alert("Amount must be a number");
-            return; 
-        }
-        newText = String(ins[1].value) + " " + String(ins[2].value).toLowerCase() + " of "  + String(ins[0].value)
-    }
-    else newText = String(ins[0].value)
 
     // Apply the text
     let txt = newStep.querySelector("p");
     txt.innerHTML = newText;
-    
-    // Add morqe attributes
-    let container = newStep.querySelector("li");
-    let button = newStep.querySelector("button");
-    //button.dataset.assosiatedElement = container.id;
+    inp = newStep.querySelector("input");
+    inp.value = newText;
+    inp.name = "list-element:" + targetName;
     document.getElementById(which.getAttribute("data-assosiated-list")).appendChild(newStep);
-    
+
+    // Clear the input forms for the targeted region
+    let parts = which.querySelectorAll(".create-ins");
+
+    for (let part of parts){
+        part.value = "";
+    }
     return
-    
-    // Create and insert in the previous instruction as a paragraph
-    // Get access to child nodes
-    
-    
-    var h = newStep.querySelector("label")
+}
 
-    //Add information to child nodes
-    h.innerHTML = "Step " + steps + ": ";
-    text.innerHTML = document.getElementById("instruct_txt").value;
-    text.name = "I" + steps;
-    container.id = "I" + steps;
-    instructions.push(container.id)
-    button.dataset.assosiatedElement = container.id;
-    
-    document.getElementById("instruct_txt").value = "";
+window.onload = function(){
+    if (formDataJson === null){
+        return
+    }
+    else{
+        //console.log(typeof(formDataJson))
+        //console.log(formDataJson)
+        //convertedFormData = JSON.parse(formDataJson)
+        generateList()
+    }
+}
 
+// It's generating the list even after I delete Items
+function generateList(){
+    if (formDataJson["instructions"]){
+        for (let i of formDataJson["instructions"]){
+            nextItem("x","instruct-form",i)
+        }
+    }
+    if (formDataJson["ingredients"][0]){
+        console.log(formDataJson["ingredients"])
+        //iList = document.getElementById("ingredients-list")
+        for (let i of formDataJson["ingredients"]){
+            nextItem("x", "ingredient-form",i )
+        }
+    }
 }

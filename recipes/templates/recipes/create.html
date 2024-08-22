@@ -7,20 +7,21 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{% url 'create' %}" method="post">
+    <form action="{% url 'submit' %}" method="post">
     {% csrf_token %}
     <fieldset>
+        <script type="text/javascript"> var formDataJson = JSON.parse('{{ formDataJson|escapejs }}'); </script>
         <legend><h1>New Recipe</h1></legend>
         <div class="form-group">
-            <label for="colFormLabel">Title</label>
+            <label for="title">Title</label>
             <div>
-                <input type="text">
+                <input type="text" name="title" id="title" value="{{ formData.title|default:'' }}">
             </div>
         </div>
         <div class="form-group">
-            <label for="colFormLabel" class="col-sm-2 col-form-label col-form-label">Description</label>
+            <label for="description" class="col-sm-2 col-form-label col-form-label">Description</label>
             <div>
-                <textarea type="text"></textarea>
+                <textarea type="text" name="description" id="description" value="">{{ formData.description|default:'' }}</textarea>
             </div>
         </div>
         <div id="instruct">
@@ -35,9 +36,12 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <ol id="instruct-list"></ol>
+                    <ol id="instruct-list">
+                    </ol>
                 </div>
             </div>
+
+            <input type="hidden" id="instruction-submit-list" name="instruction-submit-list">
         </div>
         <!-- Add Ingredient button -->
         <div class="form-group" id="ingredient-form" name="ingredients" data-assosiated-list="ingredients-list">
@@ -53,7 +57,9 @@
                     <select name="measurement" default="Measurement" class="ing-opt create-ins">
                         <option value="Placeholder"  selected disabled >Measurement</option>
                         {% for measurement in measurements %}
-                        <option value="{{measurement}}">{{measurement}}</option>
+                                {% if measurement != "" %}
+                                    <option value="{{measurement}}">{{measurement}}</option>
+                                {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -64,18 +70,22 @@
                     <button id="ing_add" class="add btn btn-dark btn-sm" data-assosiated-element="ingredient-form" onclick="nextItem(event)" type="button">Add</button>
                 </div>
             </div>
-        </div> 
-        <div class="row">
-            <div class="col-12">
-                <ol id="ingredients-list"></ol>
-            </div>
-        </div>
 
+            <div class="row">
+                <div class="col-12">
+                    <ol id="ingredients-list"></ol>
+                </div>
+            </div>
+
+            
+        </div> 
+        <input type="hidden" id="ingredient-submit-list" name="ingredient-submit-list">
+        
         <div class="form-group" name="Serves">
             <label class="col col-form-label col-form-label>">Serves</label>
             <div class="row">
                 <div class="col-4">
-                    <input type="number" placeholder="Serves">
+                    <input type="number" placeholder="Serves" id="serves" name="serves" value="{{ formData.serves|default:'' }}">
                 </div>
             </div>
         </div>
@@ -83,7 +93,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-3">
-                    <button type="submit" value="Submit" class="btn btn-dark btn-sm" style="margin-top: 8px">Create Recipe</button>
+                    <button type="submit" value="Submit" class="btn btn-dark btn-sm" style="margin-top: 8px" onkeydown="">Create Recipe</button>
                 </div>
             </div>
         </div>
@@ -96,11 +106,14 @@
                     <div class="col-7">
                         <!-- <label for="create_li"></label> -->
                         <p class="create_li" name="bootstrapTextbox"></p>
+                        <input type="hidden" name="list">
                     </div>
                     <div class="col-3">
-                        <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="removeNew(event)">Delete</button>
+                        <button data-assosiated-element="item" type="button" class="btn btn-dark btn-sm" onclick="remove(event)">Delete</button>
                     </div>
                 </div>
             </li>
     </template>
+
+    
 {% endblock %}

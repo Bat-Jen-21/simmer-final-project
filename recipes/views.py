@@ -1,6 +1,8 @@
-from django.shortcuts import render, HttpResponse
-from django.http import Http404
+from django.shortcuts import render, HttpResponse, redirect
+from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
+from django.urls import reverse
+import json
 
 # Create your views here.
 def index(request):
@@ -27,9 +29,45 @@ def view_recipe(request, recipe_id):
         }
     return render(request, "recipes/view.html", context)
 
-def create_recipe(request):
+def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
+    # Adding in the session data
+    form_data = request.session.pop("form_data", None)
+    errors = request.session.pop("errors", None)
+    print(form_data)
     context = {
-        "measurements": measurements
+        "measurements": measurements,
+        "formDataJson": json.dumps(form_data),
+        "formData": form_data,
+        "errors": errors
+
     }
     return render(request, "recipes/create.html", context)
+
+def create_submit(request):
+    errors = []
+    #Getting post form Data
+    # print(request.POST)
+    title = request.POST.get("title")
+    description = request.POST.get("description")
+    instructions = request.POST.getlist("list-element:instructions")
+    ingredients = request.POST.getlist("list-element:ingredients")
+    serves = request.POST.get("serves")
+    #print(request.POST)
+    #Input validation 
+    #///////////////////////////////////////////////
+    for key in request.POST:
+        if request.POST[key].strip() == "":
+            errors.append(key)
+    
+    if len(errors) > 0:
+        print("REDIRECTING")
+        request.session["errors"] = errors
+        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves}
+        return redirect(reverse("create_display"))
+
+
+    # Now we have access to the data do something with it     
+
+    #Currently redirects to the main page for now
+    return redirect(reverse("index"))
