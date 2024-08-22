@@ -1,8 +1,8 @@
-// Can i use the .length to avoid using a const steps
-var instruct_steps = 0
-var ingredients_steps = 0
-var instructions = []
-var ingredients = []
+let instruct_steps = 0
+let ingredients_steps = 0
+let instructions = []
+let ingredients = []
+
 
 function enter(event){
     if ((event.key === "Enter") && (event.srcElement.matches(".create-ins"))){
@@ -20,7 +20,8 @@ function remove(event){
 function nextItem(event = "x", gen = "x", gen_values = "" ){
     let ins = []
     let value = ""
-    let newText = []; 
+    let newText = ""; 
+    let hiddenValue = []
 
     if (gen === "x"){
         var which = document.getElementById(event.srcElement.dataset.assosiatedElement);
@@ -30,10 +31,9 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
     }
 
     let targetName = which.getAttribute("name")
-
     if (gen === "x"){
-        let insOb = which.querySelectorAll("input, textarea, select");
-        for (i of insOb){
+        let insOb = which.querySelectorAll("input:not([type='hidden']), textarea, select");
+        for (let i of insOb){
             ins.push(i.value)
         }
         for (let i of ins){
@@ -49,29 +49,44 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
                 alert("Amount must be a number");
                 return; 
             }
-            newText = String(ins[1]) + " " + String(ins[2]).toLowerCase() + " of "  + String(ins[0]) 
-        }
+            newText = makeIngredients(ins)
+            for (let i of ins){
+                hiddenValue.push(i);
+            }}
         else {
             newText = String(ins[0])
         }
     }
     else {
-        newText = gen_values;
+        if (targetName === "ingredients"){
+            newText = makeIngredients(JSON.parse(gen_values))
+            console.log(newText + "modified")
+        }
+        else{
+            newText = gen_values;
+        }
     }
-    
+
     var newStep = document.getElementById("item_template").content.cloneNode(true);
 
     // Apply the text
     let txt = newStep.querySelector("p");
+    console.log(newText)
     txt.innerHTML = newText;
     inp = newStep.querySelector("input");
-    inp.value = newText;
     inp.name = "list-element:" + targetName;
+    if (hiddenValue.length > 0){
+        inp.value = JSON.stringify(hiddenValue)
+    }
+    else{
+        inp.value = newText
+    }
+
     document.getElementById(which.getAttribute("data-assosiated-list")).appendChild(newStep);
 
     // Clear the input forms for the targeted region
     let parts = which.querySelectorAll(".create-ins");
-
+    
     for (let part of parts){
         part.value = "";
     }
@@ -94,13 +109,17 @@ function generateList(){
             nextItem("x","instruct-form",i)
         }
     }
-    if (formDataJson["ingredients"][0]){
+    if (formDataJson["ingredients"]){
         for (let i of formDataJson["ingredients"]){
             nextItem("x", "ingredient-form",i )
         }
     }
-    console.log(blank)
+
     if (blank == "1"){
         alert("No form input can be blank upon submission")
     }
+}
+
+function makeIngredients(ingredients){
+    return (String(ingredients[1]) + " " + String(ingredients[2]).toLowerCase() + " of "  + String(ingredients[0]))
 }

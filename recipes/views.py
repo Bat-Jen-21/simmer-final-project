@@ -36,6 +36,7 @@ def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
     # Adding in the session data
     form_data = request.session.pop("form_data", None)
+    print(form_data)
     blank = request.session.pop("blank", "0")
     context = {
         "measurements": measurements,
@@ -54,7 +55,14 @@ def create_submit(request):
     title = request.POST.get("title")
     description = request.POST.get("description")
     instructions = request.POST.getlist("list-element:instructions")
-    ingredients = request.POST.getlist("list-element:ingredients")
+    ingredients = json.loads(request.POST.get("list-element:ingredients", default=[]))
+    ingredient, quantity, measurement = "","",""
+    if len(ingredients) > 1:
+        ingredient = [ingredients[0]]
+        print(ingredient)
+        quantity = [ingredients[1]]
+        measurement = [ingredients[2]]
+
     serves = request.POST.get("serves")
     # blank = request.POST.get("blank")
     #print(request.POST)
@@ -64,7 +72,6 @@ def create_submit(request):
         if request.POST[key].strip() == "":
             errors.append(key)
             blank = "1"
-
     if len(request.POST) != 6 or len(errors) > 0:
         print("REDIRECTING")
         # request.session["errors"] = errors
@@ -78,8 +85,15 @@ def create_submit(request):
         #Creating a recipe in the database
         newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now())
         newRecipe.save()
-        for i in ingredients:
-            print(i)
+        # Iterate through the ingredients and check the database
+        for i in ingredient:
+            newIngredient, created = Ingredient.objects.get_or_create(name=i, defaults={"name": i})
+
+            if created:
+                print("created")
+            
+            newIngredient.save()
+
 
 
     #Currently redirects to the main page for now
