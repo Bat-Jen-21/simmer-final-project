@@ -83,9 +83,6 @@ window.onload = function(){
         return
     }
     else{
-        //console.log(typeof(formDataJson))
-        //console.log(formDataJson)
-        //convertedFormData = JSON.parse(formDataJson)
         generateList()
     }
 }
@@ -98,10 +95,12 @@ function generateList(){
         }
     }
     if (formDataJson["ingredients"][0]){
-        console.log(formDataJson["ingredients"])
-        //iList = document.getElementById("ingredients-list")
         for (let i of formDataJson["ingredients"]){
             nextItem("x", "ingredient-form",i )
         }
+    }
+    console.log(blank)
+    if (blank == "1"){
+        alert("No form input can be blank upon submission")
     }
 }

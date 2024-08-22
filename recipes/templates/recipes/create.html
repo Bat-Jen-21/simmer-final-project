@@ -11,6 +11,7 @@
     {% csrf_token %}
     <fieldset>
         <script type="text/javascript"> var formDataJson = JSON.parse('{{ formDataJson|escapejs }}'); </script>
+        <script type="text/javascript"> var blank = JSON.parse('{{ blank|escapejs }}') </script>
         <legend><h1>New Recipe</h1></legend>
         <div class="form-group">
             <label for="title">Title</label>
@@ -41,7 +42,7 @@
                 </div>
             </div>
 
-            <input type="hidden" id="instruction-submit-list" name="instruction-submit-list">
+            <!-- <input type="hidden" id="instruction-submit-list" name="instruction-submit-list"> -->
         </div>
         <!-- Add Ingredient button -->
         <div class="form-group" id="ingredient-form" name="ingredients" data-assosiated-list="ingredients-list">
@@ -79,7 +80,7 @@
 
             
         </div> 
-        <input type="hidden" id="ingredient-submit-list" name="ingredient-submit-list">
+        <!-- <input type="hidden" id="ingredient-submit-list" name="ingredient-submit-list"> -->
         
         <div class="form-group" name="Serves">
             <label class="col col-form-label col-form-label>">Serves</label>

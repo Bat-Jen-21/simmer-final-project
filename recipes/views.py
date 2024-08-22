@@ -3,6 +3,8 @@ from django.http import Http404, HttpRequest
 from .models import Recipe, Recipe_Ingredient, Ingredient
 from django.urls import reverse
 import json
+from django.utils import timezone
+import ast
 
 # Create your views here.
 def index(request):
@@ -25,6 +27,7 @@ def view_recipe(request, recipe_id):
     ingredients = recipe.recipe_ingredient_set.all()
     context = {
         "recipe": recipe,
+        "instructions": ast.literal_eval(recipe.instructions),
         "ingredients": ingredients,
         }
     return render(request, "recipes/view.html", context)
@@ -33,19 +36,19 @@ def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
     # Adding in the session data
     form_data = request.session.pop("form_data", None)
-    errors = request.session.pop("errors", None)
-    print(form_data)
+    blank = request.session.pop("blank", "0")
     context = {
         "measurements": measurements,
         "formDataJson": json.dumps(form_data),
         "formData": form_data,
-        "errors": errors
+        "blank": blank, 
 
     }
     return render(request, "recipes/create.html", context)
 
 def create_submit(request):
     errors = []
+    blank = "0"
     #Getting post form Data
     # print(request.POST)
     title = request.POST.get("title")
@@ -53,21 +56,31 @@ def create_submit(request):
     instructions = request.POST.getlist("list-element:instructions")
     ingredients = request.POST.getlist("list-element:ingredients")
     serves = request.POST.get("serves")
+    # blank = request.POST.get("blank")
     #print(request.POST)
     #Input validation 
     #///////////////////////////////////////////////
     for key in request.POST:
         if request.POST[key].strip() == "":
             errors.append(key)
-    
-    if len(errors) > 0:
+            blank = "1"
+
+    if len(request.POST) != 6 or len(errors) > 0:
         print("REDIRECTING")
-        request.session["errors"] = errors
+        # request.session["errors"] = errors
         request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves}
+        request.session["blank"] = blank
         return redirect(reverse("create_display"))
 
 
-    # Now we have access to the data do something with it     
+    # Now we have access to the data do something with it
+    else:
+        #Creating a recipe in the database
+        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now())
+        newRecipe.save()
+        for i in ingredients:
+            print(i)
+
 
     #Currently redirects to the main page for now
     return redirect(reverse("index"))

@@ -9,7 +9,12 @@
     <ul>
         <li>Title: {{ recipe.title }}</li>
         <li>Description: {{ recipe.description }}</li>
-        <li>Instructions: {{ recipe.instructions }}</li>
+        <li>Instructions: {{instructions}}</li>
+        <ol>
+            {% for instruction in instructions %}
+                <li>{{instruction}}</li>
+            {% endfor %}
+        </ol>
         <li>Ingredients: </li>
         <ul>
             {% for ingredient in ingredients %}
