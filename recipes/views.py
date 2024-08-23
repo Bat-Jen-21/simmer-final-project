@@ -85,16 +85,15 @@ def create_submit(request):
         #Creating a recipe in the database
         newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now())
         newRecipe.save()
+        print(newRecipe)
         # Iterate through the ingredients and check the database
-        for i in ingredient:
-            newIngredient, created = Ingredient.objects.get_or_create(name=i, defaults={"name": i})
-
-            if created:
-                print("created")
-            
+        for i in range(len(ingredient) - 1):
+            newIngredient, created = Ingredient.objects.get_or_create(name=ingredient[i], 
+                                                                      defaults={"name": ingredient[i]})
             newIngredient.save()
-
-
+            newRecipeIngredient = Recipe_Ingredient(recipe=newRecipe, ingredient=newIngredient, 
+                                                    quantity=quantity[i], measurement=measurement[i].capitalize())
+            newRecipeIngredient.save()
 
     #Currently redirects to the main page for now
     return redirect(reverse("index"))

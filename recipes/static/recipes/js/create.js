@@ -51,7 +51,7 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
             }
             newText = makeIngredients(ins)
             for (let i of ins){
-                hiddenValue.push(i);
+                hiddenValue.push(i.toLowerCase());
             }}
         else {
             newText = String(ins[0])
@@ -121,5 +121,5 @@ function generateList(){
 }
 
 function makeIngredients(ingredients){
-    return (String(ingredients[1]) + " " + String(ingredients[2]).toLowerCase() + " of "  + String(ingredients[0]))
+    return (String(ingredients[1]) + " " + String(ingredients[2]).toLowerCase() + " of "  + String(ingredients[0]).toLowerCase())
 }
