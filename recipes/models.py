@@ -8,6 +8,7 @@ class Recipe(models.Model):
     description = models.TextField()
     instructions = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
+    serves = models.IntegerField(default=1)
 
     def __str__(self):
         return(self.title)

@@ -24,11 +24,12 @@ def view_recipe(request, recipe_id):
     
     # query the db for the ingredients
     # ingredients = Recipe_Ingredient.objects.filter(recipe=recipe)
-    ingredients = recipe.recipe_ingredient_set.all()
+    recipe_ingredients = Recipe_Ingredient.objects.select_related("recipe", "ingredient").filter(recipe_id=recipe_id)
     context = {
         "recipe": recipe,
         "instructions": ast.literal_eval(recipe.instructions),
-        "ingredients": ingredients,
+        # "ingredients": ingredients,
+        "recipeIngredients": recipe_ingredients,
         }
     return render(request, "recipes/view.html", context)
 
@@ -57,9 +58,9 @@ def create_submit(request):
     instructions = request.POST.getlist("list-element:instructions")
     ingredients = json.loads(request.POST.get("list-element:ingredients", default=[]))
     ingredient, quantity, measurement = "","",""
+    print(ingredients)
     if len(ingredients) > 1:
         ingredient = [ingredients[0]]
-        print(ingredient)
         quantity = [ingredients[1]]
         measurement = [ingredients[2]]
 
@@ -83,14 +84,15 @@ def create_submit(request):
     # Now we have access to the data do something with it
     else:
         #Creating a recipe in the database
-        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now())
+        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves)
         newRecipe.save()
         print(newRecipe)
         # Iterate through the ingredients and check the database
-        for i in range(len(ingredient) - 1):
+        for i in range(len(ingredient)):
             newIngredient, created = Ingredient.objects.get_or_create(name=ingredient[i], 
                                                                       defaults={"name": ingredient[i]})
             newIngredient.save()
+
             newRecipeIngredient = Recipe_Ingredient(recipe=newRecipe, ingredient=newIngredient, 
                                                     quantity=quantity[i], measurement=measurement[i].capitalize())
             newRecipeIngredient.save()

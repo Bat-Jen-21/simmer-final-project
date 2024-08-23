@@ -6,21 +6,30 @@
 
 {% block content %}
     <h2>Recipes</h2>
-    <ul>
-        <li>Title: {{ recipe.title }}</li>
-        <li>Description: {{ recipe.description }}</li>
-        <li>Instructions:</li>
-        <ol>
-            {% for instruction in instructions %}
-                <li>{{instruction}}</li>
-            {% endfor %}
-        </ol>
-        <li>Ingredients: </li>
-        <ul>
-            {% for ingredient in ingredients %}
-            <li>{{ ingredient.quantity }} {{ ingredient.measurement }} of {{ ingredient.ingredient.name }}</li>
-            {% endfor %}
-        </ul>
-        <li>Created on:  {{ recipe.creation_date }}</li>
-    </ul>
+    <dl>
+        <dt>Title:</dt>
+        <dd>{{ recipe.title }}</dd>
+        <dt>Description: </dt>
+        <dd>{{ recipe.description }}</dd>
+        <dt>Instructions:</dt>
+        <dd>
+            <ol>
+                {% for instruction in instructions %}
+                    <li>{{instruction}}</li>
+                {% endfor %}
+            </ol>
+        </dd>
+        <dd>Ingredients:</dd>
+        <dd>
+            <ul>
+                {% for ri in recipeIngredients %}
+                <li>{{ ri.quantity }} {{ ri.measurement }} of {{ ri.ingredient.name }} </li>
+                {% endfor %}
+            </ul>
+        </dd>
+        <dt>Serves: </dt>
+        <dd>{{ recipe.serves }}</dd>
+        <dt>Created on:  </dt>
+        <dd>{{ recipe.creation_date }}</dd>
+    </dl>
 {% endblock %}
