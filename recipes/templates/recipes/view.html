@@ -23,12 +23,14 @@
         <dd>
             <ul>
                 {% for ri in recipeIngredients %}
-                <li>{{ ri.quantity }} {{ ri.measurement }} of {{ ri.ingredient.name }} </li>
+                <li>{{ ri.quantity }} {{ ri.measurement }} of {{ ri.ingredient }}</li>
                 {% endfor %}
             </ul>
         </dd>
         <dt>Serves: </dt>
-        <dd>{{ recipe.serves }}</dd>
+        <dd>
+            <input id="serveAmount" class="col-1" type="number" value="{{ recipe.serves }}">
+        </dd>
         <dt>Created on:  </dt>
         <dd>{{ recipe.creation_date }}</dd>
     </dl>

@@ -25,13 +25,18 @@ class Recipe_Ingredient(models.Model):
     quantity = models.DecimalField(decimal_places=2, max_digits=10)
 
     MEASUREMENT_CHOICES = [
-        ("GRAMS", "Grams"),
-        ("PIECES", "Pieces"),
-        ("CUPS", "Cups"),
-        ("AMOUNT", "Amount")]
+        ("GRAMS", "g"),
+        ("PIECES", "pieces"),
+        ("ML", "ml"),
+        ("CUPS", "cups"),
+        ("AMOUNT", "amount"),
+        ("TEASPOONS", "teaspoons"),
+        ("TABLESPOONS", "tablespoons"),
+        ("WHOLE", "whole")
+        ]
 
     measurement = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=MEASUREMENT_CHOICES,
         default="GRAMS"
     )

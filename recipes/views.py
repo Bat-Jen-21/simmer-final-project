@@ -5,6 +5,7 @@ from django.urls import reverse
 import json
 from django.utils import timezone
 import ast
+from decimal import Decimal
 
 # Create your views here.
 def index(request):
@@ -25,6 +26,13 @@ def view_recipe(request, recipe_id):
     # query the db for the ingredients
     # ingredients = Recipe_Ingredient.objects.filter(recipe=recipe)
     recipe_ingredients = Recipe_Ingredient.objects.select_related("recipe", "ingredient").filter(recipe_id=recipe_id)
+    for x in recipe_ingredients.iterator():
+        print(type(x.quantity))
+        print(x.quantity.normalize())
+
+    #for i in recipe_ingredients.values():
+     
+     #   print(i)
     context = {
         "recipe": recipe,
         "instructions": ast.literal_eval(recipe.instructions),
@@ -56,14 +64,10 @@ def create_submit(request):
     title = request.POST.get("title")
     description = request.POST.get("description")
     instructions = request.POST.getlist("list-element:instructions")
-    ingredients = json.loads(request.POST.get("list-element:ingredients", default=[]))
-    ingredient, quantity, measurement = "","",""
-    print(ingredients)
-    if len(ingredients) > 1:
-        ingredient = [ingredients[0]]
-        quantity = [ingredients[1]]
-        measurement = [ingredients[2]]
-
+    ingredients = request.POST.getlist("list-element:ingredients", default=[])
+    for i in range(len(ingredients)):
+        ingredients[i] = json.loads(ingredients[i])
+        
     serves = request.POST.get("serves")
     # blank = request.POST.get("blank")
     #print(request.POST)
@@ -86,15 +90,14 @@ def create_submit(request):
         #Creating a recipe in the database
         newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves)
         newRecipe.save()
-        print(newRecipe)
         # Iterate through the ingredients and check the database
-        for i in range(len(ingredient)):
-            newIngredient, created = Ingredient.objects.get_or_create(name=ingredient[i], 
-                                                                      defaults={"name": ingredient[i]})
+        for i in range(len(ingredients)):
+            newIngredient = Ingredient.objects.get_or_create(name=ingredients[i][0], 
+                                                                      defaults={"name": ingredients[i][0]})
             newIngredient.save()
 
             newRecipeIngredient = Recipe_Ingredient(recipe=newRecipe, ingredient=newIngredient, 
-                                                    quantity=quantity[i], measurement=measurement[i].capitalize())
+                                                    quantity=ingredients[i][1], measurement=ingredients[i][2].capitalize())
             newRecipeIngredient.save()
 
     #Currently redirects to the main page for now
