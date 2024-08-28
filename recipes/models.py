@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings 
 
 # Create your models here.
 
@@ -9,6 +10,9 @@ class Recipe(models.Model):
     instructions = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
     serves = models.IntegerField(default=1)
+
+    # Adding an image parameter
+    image = models.ImageField(upload_to="images/", default=str(settings.BASE_DIR) + "/recipes/static/images/cook_pot.jpg")
 
     def __str__(self):
         return(self.title)
@@ -51,3 +55,5 @@ class Recipe_Ingredient(models.Model):
 
 
 # Make an authors table that can refence a users table
+
+# Image table

@@ -24,15 +24,19 @@ def view_recipe(request, recipe_id):
         raise Http404("This recipe does not exist")
     
     # query the db for the ingredients
-    # ingredients = Recipe_Ingredient.objects.filter(recipe=recipe)
-    recipe_ingredients = Recipe_Ingredient.objects.select_related("recipe", "ingredient").filter(recipe_id=recipe_id)
-    for x in recipe_ingredients.iterator():
-        print(type(x.quantity))
-        print(x.quantity.normalize())
+    # Join in the ingredients table using the django ORM chain query to get the names of the ingredients
+    # Modify the result to remove trailing zeros
+    recipe_ingredients = Recipe_Ingredient.objects.filter(recipe=recipe).select_related("ingredient")
+    print(recipe_ingredients)
+    def remove_trailing_zeros(n):
+        return str(float(n)).rstrip("0").rstrip(".")
+    
+    for ri in recipe_ingredients:
+        ri.quantity = remove_trailing_zeros(ri.quantity)
 
-    #for i in recipe_ingredients.values():
-     
-     #   print(i)
+    for ri in recipe_ingredients:
+        print(ri.ingredient.name)
+
     context = {
         "recipe": recipe,
         "instructions": ast.literal_eval(recipe.instructions),
@@ -92,9 +96,9 @@ def create_submit(request):
         newRecipe.save()
         # Iterate through the ingredients and check the database
         for i in range(len(ingredients)):
-            newIngredient = Ingredient.objects.get_or_create(name=ingredients[i][0], 
+            newIngredient, c = Ingredient.objects.get_or_create(name=ingredients[i][0], 
                                                                       defaults={"name": ingredients[i][0]})
-            newIngredient.save()
+
 
             newRecipeIngredient = Recipe_Ingredient(recipe=newRecipe, ingredient=newIngredient, 
                                                     quantity=ingredients[i][1], measurement=ingredients[i][2].capitalize())

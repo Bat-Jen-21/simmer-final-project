@@ -2,11 +2,16 @@
 
 {% block title %}
     <title> {{ recipe.title }} </title>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'recipes/js/view.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
     <h2>Recipes</h2>
     <dl>
+        <dt>
+            <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+        </dt>
         <dt>Title:</dt>
         <dd>{{ recipe.title }}</dd>
         <dt>Description: </dt>
@@ -23,13 +28,15 @@
         <dd>
             <ul>
                 {% for ri in recipeIngredients %}
-                <li>{{ ri.quantity }} {{ ri.measurement }} of {{ ri.ingredient }}</li>
+                <li id="ingredient_list">
+                    <span id="quantity" class="quants" value="{{ ri.quantity }}">{{ ri.quantity }} </span><span>{{ ri.measurement }} of {{ ri.ingredient.name }}</span> 
+                </li>
                 {% endfor %}
             </ul>
         </dd>
         <dt>Serves: </dt>
         <dd>
-            <input id="serveAmount" class="col-1" type="number" value="{{ recipe.serves }}">
+            <input id="serveDisplay" class="col-1" type="number" value="{{ recipe.serves }}" initialValue="{{ recipe.serves }}" onchange="updateValues()" min="1" max="100">
         </dd>
         <dt>Created on:  </dt>
         <dd>{{ recipe.creation_date }}</dd>
