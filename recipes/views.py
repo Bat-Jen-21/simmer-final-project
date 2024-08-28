@@ -6,6 +6,7 @@ import json
 from django.utils import timezone
 import ast
 from decimal import Decimal
+import imghdr
 
 # Create your views here.
 def index(request):
@@ -49,13 +50,14 @@ def create_display(request):
     measurements = Recipe_Ingredient.get_measurements()
     # Adding in the session data
     form_data = request.session.pop("form_data", None)
-    print(form_data)
     blank = request.session.pop("blank", "0")
+    jpeg = request.session.pop("jpeg", "0")
     context = {
         "measurements": measurements,
         "formDataJson": json.dumps(form_data),
         "formData": form_data,
         "blank": blank, 
+        "jpeg": jpeg
 
     }
     return render(request, "recipes/create.html", context)
@@ -63,12 +65,15 @@ def create_display(request):
 def create_submit(request):
     errors = []
     blank = "0"
+    jpeg = "0"
     #Getting post form Data
     # print(request.POST)
     title = request.POST.get("title")
     description = request.POST.get("description")
     instructions = request.POST.getlist("list-element:instructions")
     ingredients = request.POST.getlist("list-element:ingredients", default=[])
+    image = request.FILES.get("upload", None)
+
     for i in range(len(ingredients)):
         ingredients[i] = json.loads(ingredients[i])
         
@@ -76,23 +81,28 @@ def create_submit(request):
     # blank = request.POST.get("blank")
     #print(request.POST)
     #Input validation 
-    #///////////////////////////////////////////////
+    if image:
+        if imghdr.what(image, h=None) != "jpeg":
+            print("NOT A JPEG")
+            jpeg = "1"
+        
     for key in request.POST:
         if request.POST[key].strip() == "":
             errors.append(key)
             blank = "1"
-    if len(request.POST) != 6 or len(errors) > 0:
+    if len(request.POST) != 6 or len(errors) > 0 or jpeg == "1":
         print("REDIRECTING")
         # request.session["errors"] = errors
         request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves}
         request.session["blank"] = blank
+        request.session["jpeg"] = jpeg
         return redirect(reverse("create_display"))
 
 
     # Now we have access to the data do something with it
     else:
         #Creating a recipe in the database
-        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves)
+        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves, image=image)
         newRecipe.save()
         # Iterate through the ingredients and check the database
         for i in range(len(ingredients)):

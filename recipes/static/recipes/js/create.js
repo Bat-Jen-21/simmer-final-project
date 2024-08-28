@@ -118,6 +118,9 @@ function generateList(){
     if (blank == "1"){
         alert("No form input can be blank upon submission")
     }
+    if (jpeg == "1"){
+        alert("The image must be in JPEG format")
+    }
 }
 
 function makeIngredients(ingredients){

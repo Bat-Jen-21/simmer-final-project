@@ -12,7 +12,7 @@ class Recipe(models.Model):
     serves = models.IntegerField(default=1)
 
     # Adding an image parameter
-    image = models.ImageField(upload_to="images/", default=str(settings.BASE_DIR) + "/recipes/static/images/cook_pot.jpg")
+    image = models.ImageField(upload_to="images/", default="/images/cook_pot.jpg")
 
     def __str__(self):
         return(self.title)
