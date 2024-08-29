@@ -3,9 +3,13 @@
 body {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     background-color: #ebded5;
-    font-size: small;
+    font-size: x-small;
     color: #393734;
-    
+    display:flex;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+
 }
 
 header {
@@ -14,11 +18,17 @@ header {
 
 }
 
-main {
-    
-    padding-left: 2px;
-    padding-right: 2px;
+
+.left-border, .right-border{
+    height: 100vg;
+    min-width: 20%;
 }
+
+.main-content{
+    box-sizing: border-box;
+}
+
+
 
 #title {
     font-size: x-large !important;
@@ -42,6 +52,7 @@ input, textarea{
 }
 
 
+
 .topbar {
     border-bottom: 2px solid #716a64;
 }
@@ -61,6 +72,33 @@ ol#instruct-list, ol#ingredients-list {
     flex-direction: column;
 }
 
+
+.viewHeader{
+    text-align: center;
+}
+
+img{
+    max-width: 85%;
+    height: auto;
+}
+
+#thumbnailImage{
+    float: right;
+}
+
+#creationDate{
+    font-size: x-small;
+}
+
+#centerPoints{
+    align-items: center;
+    text-align: center;
+}
+
+.iandi{
+    padding-top: 30px;
+
+}
 
 
 
