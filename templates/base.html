@@ -19,7 +19,7 @@
                     <a class="btn btn-sm btn-outline-secondary top-button" href="#" >Sign up/in</a>
                   </div>
                   <div class="col-4 text-center">
-                    <a class="blog-header-logo text-dark" href="/" id="title">Simmer</a>
+                    <a class="blog-header-logo" href="/" id="title">Simmer</a>
                   </div>
                   <div class="col-4 d-flex justify-content-end align-items-center">
                     <form class="d-flex" method="get">
@@ -31,22 +31,24 @@
               </div>
             <div class="hdr topbar nav-scroller py-1 mb-2 ">
               <nav class="nav d-flex justify-content-between">
-                <a class="p-2 text-muted" href="/">Homepage</a>
-                <a class="p-2 text-muted" href="/create">Create a Recipe</a>
-                <a class="p-2 text-muted" href="#">My recipes</a>
-                <a class="p-2 text-muted" href="#">Account</a>
+                <a class="p-2" href="/">Homepage</a>
+                <a class="p-2" href="/create">Create a Recipe</a>
+                <a class="p-2" href="#">My recipes</a>
+                <a class="p-2" href="#">Account</a>
               </nav>
             </div>
+        
+            <div class="row">
+              <div class="col-md-2 left-border"></div>
+              <div class="col-md-8 main-content">
+                <main>
+                  {% block content %}{% endblock %} </p>
+                </main>
+              </div>
+              <div class="col-md-2 right-border"></div>
+            </div>
         </div>
-
-          <!-- Header layer 2 -->
           
-
-            <main>
-              {% block content %}{% endblock %} </p>
-            </main>
-            
-          </div>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script> 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
           

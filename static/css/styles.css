@@ -1,11 +1,13 @@
+*, a {
+    color: #393734 !important;
+}
 
 
 body {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     background-color: #ebded5;
-    font-size: small;
-    color: #393734;
-    
+    font-size: x-small;
+    max-width: 100%;
 }
 
 header {
@@ -14,18 +16,24 @@ header {
 
 }
 
-main {
-    
-    padding-left: 2px;
-    padding-right: 2px;
+
+.left-border, .right-border{
+    height: 100vh;
+    width: 10%;
 }
+
+.main-content{
+    box-sizing: border-box;
+    width: 80%;
+}
+
+
 
 #title {
     font-size: x-large !important;
 }
 
 .top-button {
-    color: #393734;
     border-color: black;
 }
 
@@ -36,11 +44,9 @@ main {
     
 }
 
-
 input, textarea{
     width: 100%;
 }
-
 
 .topbar {
     border-bottom: 2px solid #716a64;
@@ -62,7 +68,25 @@ ol#instruct-list, ol#ingredients-list {
 }
 
 
+.viewHeader{
+    text-align: center;
+}
 
 
+#creationDate{
+    font-size: x-small;
+}
 
+#centerPoints{
+    align-items: center;
+    text-align: center;
+}
+
+.iandi{
+    padding-top: 30px;
+}
+
+.card{
+    background-color: #f3e7df;
+}
 

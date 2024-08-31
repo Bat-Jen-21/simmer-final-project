@@ -36,7 +36,8 @@ class Recipe_Ingredient(models.Model):
         ("AMOUNT", "amount"),
         ("TEASPOONS", "teaspoons"),
         ("TABLESPOONS", "tablespoons"),
-        ("WHOLE", "whole")
+        ("WHOLE", "whole"),
+        ("CANS", "cans")
         ]
 
     measurement = models.CharField(
