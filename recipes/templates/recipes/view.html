@@ -8,49 +8,44 @@
 
 {% block content %}
     
+        <div class="card">
+            <div class="row row-cols-1 row-cols-sm-2 g-4 m-1">
+                    
+                <!--<div class="col-sm-12 col-md-6 mb-3">-->
+                    <div class="col">
+                        <img id="thumbnailImage" class="card-img-top rounded" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                    </div>
+                        
+                            <div class="col">
+                                <h3 class="card-title">{{ recipe.title }}</h2>
+                                <p class="card-text">{{ recipe.description }}</p>
+                                <dd>Author Placeholder</dd>
+                                <dd>Prep time: </dd>
+                                <dd>Cook time: </dd>
+                                <dd>Total time: </dd>
+                                <dd>Serves: <input id="serveDisplay" class="col-3" type="number" value="{{ recipe.serves }}" initialValue="{{ recipe.serves }}" onchange="updateValues()" min="1" max="100"></dd>
+                            </div>    
 
-        <dd class="viewHeader" id="title"> <h2>{{ recipe.title }}</h2></dd>
-        <dd class="viewHeader" id="creationDate">{{ recipe.creation_date }}</dd>
-        
-        <div class="row justify-content-center centerPoints">
-            <div class="col-5">
-                <img id="thumbnailImage" class="float-end" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-            </div>
-            <div class="col-5">
-                <dd>Author Placeholder</dd>
-                <dd id="description">{{ recipe.description }}</dd>
-                <dd>Prep time: </dd>
-                <dd>Cook time: </dd>
-                <dd>Total time: </dd>
-                <dd>Serves: </dd>
-                <dd>
-                    <input id="serveDisplay" class="col-3" type="number" value="{{ recipe.serves }}" initialValue="{{ recipe.serves }}" onchange="updateValues()" min="1" max="100">
-                </dd>
-            </div>   
+                            <div class="col">
+                                <h4 class="card-h">Instructions</h4>
+                                <ul class="list-group list-group-flush">
+                                    {% for instruction in instructions %}
+                                            <li class="list-group-item">{{instruction}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <div class="col">
+                                <h4 class="card-h">Ingredients</h4>
+                                <ul class="list-group list-group-flush">
+                                    {% for ri in recipeIngredients %}
+                                        <li id="ingredient_list" class="list-group-item">
+                                            <span id="quantity" class="quants" value="{{ ri.quantity }}">{{ ri.quantity }} </span><span>{{ ri.measurement }} of {{ ri.ingredient.name }}</span> 
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>   
+                </div>
         </div>
-        <div class="row justify-content-center iandi">
-            <div class="col-5">
-                    <dt style="text-align:center">Instructions:</dt>
-                <dd>
-                    <ol>
-                        {% for instruction in instructions %}
-                            <li>{{instruction}}</li>
-                        {% endfor %}
-                    </ol>
-                </dd>
-        </div>
-            <div class="col-5">
-                <dt style="text-align:center">Ingredients:</dt>
-                <dd>
-                    <ul>
-                        {% for ri in recipeIngredients %}
-                            <li id="ingredient_list">
-                            <span id="quantity" class="quants" value="{{ ri.quantity }}">{{ ri.quantity }} </span><span>{{ ri.measurement }} of {{ ri.ingredient.name }}</span> 
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </dd>
-            </div>
-        </div>
-        
+             
 {% endblock %}

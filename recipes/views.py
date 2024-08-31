@@ -79,7 +79,7 @@ def create_submit(request):
         
     serves = request.POST.get("serves")
     # blank = request.POST.get("blank")
-    #print(request.POST)
+    print(request.POST)
     #Input validation 
     if image:
         if imghdr.what(image, h=None) != "jpeg":
@@ -87,10 +87,11 @@ def create_submit(request):
             jpeg = "1"
         
     for key in request.POST:
-        if request.POST[key].strip() == "":
+        if request.POST[key].strip() == "" and key != "upload":
+            print("error ==" + key)
             errors.append(key)
             blank = "1"
-    if len(request.POST) != 6 or len(errors) > 0 or jpeg == "1":
+    if len(errors) > 0 or jpeg == "1" or blank == "1":
         print("REDIRECTING")
         # request.session["errors"] = errors
         request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves}
@@ -102,7 +103,9 @@ def create_submit(request):
     # Now we have access to the data do something with it
     else:
         #Creating a recipe in the database
-        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves, image=image)
+        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves)
+        if image:
+            newRecipe.image = image
         newRecipe.save()
         # Iterate through the ingredients and check the database
         for i in range(len(ingredients)):
