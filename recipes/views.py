@@ -73,6 +73,8 @@ def create_submit(request):
     instructions = request.POST.getlist("list-element:instructions")
     ingredients = request.POST.getlist("list-element:ingredients", default=[])
     image = request.FILES.get("upload", None)
+    cookTime = request.POST.get("cookTime")
+    prepTime = request.POST.get("prepTime")
 
     for i in range(len(ingredients)):
         ingredients[i] = json.loads(ingredients[i])
@@ -94,7 +96,7 @@ def create_submit(request):
     if len(errors) > 0 or jpeg == "1" or blank == "1":
         print("REDIRECTING")
         # request.session["errors"] = errors
-        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves}
+        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves, "prepTime": prepTime, "cookTime": cookTime}
         request.session["blank"] = blank
         request.session["jpeg"] = jpeg
         return redirect(reverse("create_display"))

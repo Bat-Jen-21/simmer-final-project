@@ -20,9 +20,9 @@
                                 <h3 class="card-title">{{ recipe.title }}</h2>
                                 <p class="card-text">{{ recipe.description }}</p>
                                 <dd>Author Placeholder</dd>
-                                <dd>Prep time: </dd>
-                                <dd>Cook time: </dd>
-                                <dd>Total time: </dd>
+                                <dd>Prep time: <time>{{ recipe.prep_time }}</time></dd>
+                                <dd>Cook time: <time>{{ recipe.cook_time }}</time></dd>
+                                <dd>Total time: <time></time></dd>
                                 <dd>Serves: <input id="serveDisplay" class="col-3" type="number" value="{{ recipe.serves }}" initialValue="{{ recipe.serves }}" onchange="updateValues()" min="1" max="100"></dd>
                             </div>    
 
