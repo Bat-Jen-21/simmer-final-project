@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <h1>My Recipes</h1>
         <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for recipe in recipes %}
@@ -24,5 +25,10 @@
         </div>
         {% endfor %}
         </div>
-    {% endblock %}
+
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+{% endblock %}
 

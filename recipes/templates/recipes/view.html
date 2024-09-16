@@ -20,7 +20,7 @@
                             <div class="col">
                                 <h3 class="card-title">{{ recipe.title }}</h2>
                                 <p class="card-text">{{ recipe.description }}</p>
-                                <dd>Author Placeholder</dd>
+                                <dd>Author: {{recipe.author}}</dd>
                                 <dd>Time: <time>{{ recipe.timeH }} Hours {{recipe.timeM }} Minutes</time></dd>
                                 <dd>Serves: <input id="serveDisplay" class="col-3" type="number" value="{{ recipe.serves }}" initialValue="{{ recipe.serves }}" onchange="updateValues()" min="1" max="100"></dd>
                             </div>    

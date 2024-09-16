@@ -106,3 +106,8 @@ ol#instruct-list, ol#ingredients-list {
 
 }
 
+.libutton{
+    margin-top: 10px !important;
+    align-self: center;
+}
+

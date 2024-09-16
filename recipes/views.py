@@ -7,16 +7,25 @@ from django.utils import timezone
 import ast
 from decimal import Decimal
 import imghdr
+from django.contrib.auth.models import User
+from random import shuffle, choice
 
 # Create your views here.
 def index(request):
-    recipes = Recipe.objects.all()
-    context = {
-        "recipes": recipes
-    }
+    if request.user.is_authenticated:
+        recipes = Recipe.objects.filter(author=request.user).order_by("?")
+
+        context = {
+            "recipes": recipes
+        }
+    else:
+        context={}
     return render(request, "recipes/index.html", context)
 
 def view_recipe(request, recipe_id):
+
+    if recipe_id == 0:
+        recipe_id = choice(Recipe.objects.all().order_by("?")).id
 
     # Missing recipe error handling
     try:
@@ -77,12 +86,12 @@ def create_submit(request):
     timeH = int(request.POST.get("timeH"))
     timeM = int(request.POST.get("timeM"))
 
+    print(f"{request.user.id} id")
     for i in range(len(ingredients)):
         ingredients[i] = json.loads(ingredients[i])
         
     serves = request.POST.get("serves")
     # blank = request.POST.get("blank")
-    print(request.POST)
     #Input validation 
     if image:
         if imghdr.what(image, h=None) != "jpeg":
@@ -101,7 +110,7 @@ def create_submit(request):
     if len(errors) > 0 or jpeg == "1" or blank == "1":
         print("REDIRECTING")
         # request.session["errors"] = errors
-        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves, "prepTimeH": prepTimeH, "prepTimeM": prepTimeM, "cookTimeH": cookTimeH, "cookTimeM": cookTimeM}
+        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves, "timeH":timeH, "timeM": timeM}
         request.session["blank"] = blank
         request.session["jpeg"] = jpeg
         return redirect(reverse("create_display"))
@@ -110,7 +119,7 @@ def create_submit(request):
     # Now we have access to the data do something with it
     else:
         #Creating a recipe in the database
-        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves, timeH=timeH, timeM=timeM)
+        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves, timeH=timeH, timeM=timeM, author=request.user)
         if image:
             newRecipe.image = image
         newRecipe.save()
@@ -126,3 +135,6 @@ def create_submit(request):
 
     #Currently redirects to the main page for now
     return redirect(reverse("index"))
+
+def iSearch(request):
+    return redirect("index")

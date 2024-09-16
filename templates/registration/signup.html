@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2 style="text-align:center; padding-top:20px">Sign up</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button class="libutton btn btn-sm" type="submit">Sign up</button>
+    </form>
+    <a href="/accounts/login/">
+        <button role="link" class="libutton btn btn-sm">Log in Page</button>
+    </a>
+{% endblock %}

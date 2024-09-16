@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'recipes.apps.RecipesConfig'
+    'recipes.apps.RecipesConfig',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL ="/media/"
 MEDIA_ROOT = Path(BASE_DIR / "media")
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"

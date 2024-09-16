@@ -11,7 +11,9 @@ urlpatterns = [
     #create a recipie
     path("create/", views.create_display, name="create_display"),
     #Submit a recipe
-    path("submit/", views.create_submit, name="submit")
+    path("submit/", views.create_submit, name="submit"),
+    #Search for ingredients
+    path("iSearch", views.iSearch, name="i_search")
     
 ]
 
