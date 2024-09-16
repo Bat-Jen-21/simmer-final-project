@@ -12,6 +12,7 @@
     <fieldset>
         <script type="text/javascript"> var formDataJson = JSON.parse('{{ formDataJson|escapejs }}'); </script>
         <script type="text/javascript"> var blank = JSON.parse('{{ blank|escapejs }}') </script>
+        <script src="{% static 'recipes/js/time.js' %}" defer></script>
         <legend><h1>New Recipe</h1></legend>
         <div class="form-group">
             <label for="title">Title</label>
@@ -88,18 +89,17 @@
         
         <!-- Cook time additions -->
         <div class="form-group" name="cook time">
-            <label class="col col-form-label">Timings</label>
+            <label class="col col-form-label">Time</label>
             <div class="row">
-                <div class="col-4">
-                    <small>Prep time</small>
-                    <input type="time" placeholder="Prep time" name="prepTime" id="prepTime" value="{{ formData.prepTime|default:'00:00'}}">
-                    
-                    <small>Cook time</small>
-                    <input type="time" placeholder="Cook time" name="cookTime" id="cookTime" value="{{ formData.cookTime|default:'00:00'}}">
-                    
+                <div class="col-4 col-sm-3 col-md-2">
+                    <input type="number" name="timeH" id="timeH" min="0" max="100" value="{{ formData.prepTimeH|default:0}}"><small>Hours</small>
+                </div>:
+                <div class="col-4 col-sm-3 col-md-2">
+                    <input type="number" name="timeM" id="timeM" min="0" max="59" value="{{ formData.prepTimeM|default:0}}"><small>Minutes</small>
                 </div>
             </div>
-        </div>
+
+        <!-- Serves Amount -->
         <div class="form-group" name="Serves">
             <label class="col col-form-label col-form-label>">Serves</label>
             <div class="row">
@@ -109,20 +109,11 @@
             </div>
         </div>
 
-        <div class="form-group" name="tags">
-            <label class="col col-form-label" for="tags">Tags</label>
-            <div class="row">
-                <div class="col">
-                    <input>
-                </div>
-            </div>
-
-        </div>
-
+        <!-- Submit button -->
         <div class="form-group">
             <div class="row">
                 <div class="col-3">
-                    <button type="submit" value="Submit" class="btn btn-sm" style="margin-top: 8px" onkeydown="">Create Recipe</button>
+                    <button type="submit" value="Submit" class="btn btn-sm" style="margin-top: 8px">Create Recipe</button>
                 </div>
             </div>
         </div>

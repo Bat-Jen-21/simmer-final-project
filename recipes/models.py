@@ -8,8 +8,8 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     instructions = models.TextField()
-    prep_time = models.CharField(max_length=10, default="00:00")
-    cook_time = models.CharField(max_length=10, default="00:00")
+    timeH = models.IntegerField(default=0)
+    timeM = models.IntegerField(default=0)
     creation_date = models.DateTimeField(auto_now_add=True)
     serves = models.IntegerField(default=1)
 

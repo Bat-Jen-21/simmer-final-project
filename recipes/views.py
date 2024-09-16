@@ -66,6 +66,7 @@ def create_submit(request):
     errors = []
     blank = "0"
     jpeg = "0"
+
     #Getting post form Data
     # print(request.POST)
     title = request.POST.get("title")
@@ -73,8 +74,8 @@ def create_submit(request):
     instructions = request.POST.getlist("list-element:instructions")
     ingredients = request.POST.getlist("list-element:ingredients", default=[])
     image = request.FILES.get("upload", None)
-    cookTime = request.POST.get("cookTime")
-    prepTime = request.POST.get("prepTime")
+    timeH = int(request.POST.get("timeH"))
+    timeM = int(request.POST.get("timeM"))
 
     for i in range(len(ingredients)):
         ingredients[i] = json.loads(ingredients[i])
@@ -85,18 +86,22 @@ def create_submit(request):
     #Input validation 
     if image:
         if imghdr.what(image, h=None) != "jpeg":
-            print("NOT A JPEG")
             jpeg = "1"
+    
+    if timeH > 100 or timeM > 59:
+        errors.append("x")
         
     for key in request.POST:
         if request.POST[key].strip() == "" and key != "upload":
             print("error ==" + key)
             errors.append(key)
             blank = "1"
+
+    
     if len(errors) > 0 or jpeg == "1" or blank == "1":
         print("REDIRECTING")
         # request.session["errors"] = errors
-        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves, "prepTime": prepTime, "cookTime": cookTime}
+        request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves, "prepTimeH": prepTimeH, "prepTimeM": prepTimeM, "cookTimeH": cookTimeH, "cookTimeM": cookTimeM}
         request.session["blank"] = blank
         request.session["jpeg"] = jpeg
         return redirect(reverse("create_display"))
@@ -105,7 +110,7 @@ def create_submit(request):
     # Now we have access to the data do something with it
     else:
         #Creating a recipe in the database
-        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves)
+        newRecipe = Recipe(title=title, description=description, instructions=instructions, creation_date=timezone.now(), serves=serves, timeH=timeH, timeM=timeM)
         if image:
             newRecipe.image = image
         newRecipe.save()
