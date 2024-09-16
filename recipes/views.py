@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.http import Http404, HttpRequest
+from django.http import Http404, HttpRequest, JsonResponse
 from .models import Recipe, Recipe_Ingredient, Ingredient
 from django.urls import reverse
 import json
@@ -9,6 +9,9 @@ from decimal import Decimal
 import imghdr
 from django.contrib.auth.models import User
 from random import shuffle, choice
+from django.template.loader import render_to_string
+from django.db.models import Q
+
 
 # Create your views here.
 def index(request):
@@ -137,4 +140,22 @@ def create_submit(request):
     return redirect(reverse("index"))
 
 def iSearch(request):
-    return redirect("index")
+    url_parameter = request.GET.get("q")
+
+    if url_parameter:
+        recipes = Recipe.objects.filter(Q(title__icontains=url_parameter) | Q(recipe_ingredient__ingredient__name__icontains=url_parameter))
+    else:
+        recipes = Recipe.objects.all()
+    
+    is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest"
+
+    if is_ajax_request:
+        html = render_to_string(
+            template_name="recipes/results.html",
+            context={"recipes": recipes}
+        )
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
+    
+    return render(request, "recipes/iSearch.html", context={"recipes": recipes})

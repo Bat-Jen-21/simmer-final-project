@@ -8,23 +8,7 @@
 {% block content %}
     {% if user.is_authenticated %}
     <h1>My Recipes</h1>
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-        {% for recipe in recipes %}
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-            <a href="{% url  'view' recipe.id %}" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="m-2">
-                    <img src="{{ recipe.image.url }}" alt="{{recipe.title}}" class="card-img-top rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">Recipe type</p>
-                    </div>
-                    </div>  
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-        </div>
+        {% include "recipes/results.html" %}
 
     {% else %}
         <p>You are not logged in</p>

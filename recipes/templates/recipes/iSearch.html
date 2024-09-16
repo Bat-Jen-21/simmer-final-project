@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+    {% load static %}
+    <script src="{% static 'recipes/js/filter.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align:center">Ingredient search</h2>
+    <input placeholder="Filter ingredients" type="text" id="search-bar">
+
+    <div style="margin-top: 10px" id="adaptive-content">
+    {% include "recipes/results.html" %}
+    </div>
+{% endblock %}
