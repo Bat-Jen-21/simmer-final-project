@@ -14,6 +14,8 @@ urlpatterns = [
     path("submit/", views.create_submit, name="submit"),
     #Search for ingredients
     path("iSearch/", views.iSearch, name="i_search"),
+    #modify user account
+    path("account/", views.account, name="account")
     
 ]
 

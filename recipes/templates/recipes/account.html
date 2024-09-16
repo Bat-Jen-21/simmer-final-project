@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Account</title>
+{% endblock %}
+
+{% block content %}
+    <h2>Account details</h2>
+    <dl>
+        <dt>Username:  {{ account }}</dt>
+        <dt>
+            <a href="#">Change Password</a>
+        </dt>
+        <dt>
+            <a href="#">Delete account</a>
+        </dt>
+    </dl>
+{% endblock %}

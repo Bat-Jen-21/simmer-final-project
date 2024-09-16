@@ -143,7 +143,7 @@ def iSearch(request):
     url_parameter = request.GET.get("q")
 
     if url_parameter:
-        recipes = Recipe.objects.filter(Q(title__icontains=url_parameter) | Q(recipe_ingredient__ingredient__name__icontains=url_parameter))
+        recipes = Recipe.objects.filter(Q(title__startswith=url_parameter) | Q(recipe_ingredient__ingredient__name__startswith=url_parameter))
     else:
         recipes = Recipe.objects.all()
     
@@ -154,8 +154,13 @@ def iSearch(request):
             template_name="recipes/results.html",
             context={"recipes": recipes}
         )
+
         data_dict = {"html_from_view": html}
 
         return JsonResponse(data=data_dict, safe=False)
     
     return render(request, "recipes/iSearch.html", context={"recipes": recipes})
+
+def account(request):
+    print(request.user)
+    return render(request, "recipes/account.html", context={"account": request.user})

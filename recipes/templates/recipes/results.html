@@ -8,7 +8,7 @@
                     <img src="{{ recipe.image.url }}" alt="{{recipe.title}}" class="card-img-top rounded">
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">Recipe type</p>
+                        <p class="card-text">{{ recipe.description|truncatechars:30 }}</p>
                     </div>
                     </div>  
                 </div>
