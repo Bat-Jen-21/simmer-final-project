@@ -28,7 +28,11 @@ def index(request):
 def view_recipe(request, recipe_id):
 
     if recipe_id == 0:
-        recipe_id = choice(Recipe.objects.all().order_by("?")).id
+        try :
+            recipe_id = choice(Recipe.objects.all().order_by("?")).id
+        except:
+            return redirect("/")
+    
 
     # Missing recipe error handling
     try:
@@ -144,7 +148,6 @@ def iSearch(request):
 
     if url_parameter:
         recipes = Recipe.objects.filter(Q(title__istartswith=url_parameter) | Q(recipe_ingredient__ingredient__name__istartswith=url_parameter)).distinct()
-        print(recipes)
     else:
         recipes = Recipe.objects.all()
     
