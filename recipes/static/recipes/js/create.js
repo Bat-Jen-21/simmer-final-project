@@ -22,7 +22,6 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
     let value = ""
     let newText = ""; 
     let hiddenValue = []
-
     if (gen === "x"){
         var which = document.getElementById(event.srcElement.dataset.assosiatedElement);
     }
@@ -31,6 +30,7 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
     }
 
     let targetName = which.getAttribute("name")
+    // Manualy entered generation
     if (gen === "x"){
         let insOb = which.querySelectorAll("input:not([type='hidden']), textarea, select");
         for (let i of insOb){
@@ -57,10 +57,10 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
             newText = String(ins[0])
         }
     }
+    // Form regeneration from incorrect submit
     else {
         if (targetName === "ingredients"){
-            newText = makeIngredients(JSON.parse(gen_values))
-            console.log(newText + "modified")
+            newText = makeIngredients(gen_values)
         }
         else{
             newText = gen_values;
@@ -71,12 +71,14 @@ function nextItem(event = "x", gen = "x", gen_values = "" ){
 
     // Apply the text
     let txt = newStep.querySelector("p");
-    console.log(newText)
     txt.innerHTML = newText;
     inp = newStep.querySelector("input");
     inp.name = "list-element:" + targetName;
     if (hiddenValue.length > 0){
         inp.value = JSON.stringify(hiddenValue)
+    }
+    else if (typeof(gen_values) === "object"){
+        inp.value = JSON.stringify(gen_values)
     }
     else{
         inp.value = newText

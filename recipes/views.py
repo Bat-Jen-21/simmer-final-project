@@ -84,7 +84,6 @@ def create_submit(request):
     jpeg = "0"
 
     #Getting post form Data
-    # print(request.POST)
     title = request.POST.get("title")
     description = request.POST.get("description")
     instructions = request.POST.getlist("list-element:instructions")
@@ -93,12 +92,11 @@ def create_submit(request):
     timeH = int(request.POST.get("timeH"))
     timeM = int(request.POST.get("timeM"))
 
-    print(f"{request.user.id} id")
+    print(instructions)
     for i in range(len(ingredients)):
         ingredients[i] = json.loads(ingredients[i])
-        
+
     serves = request.POST.get("serves")
-    # blank = request.POST.get("blank")
     #Input validation 
     if image:
         if imghdr.what(image, h=None) != "jpeg":
@@ -109,7 +107,6 @@ def create_submit(request):
         
     for key in request.POST:
         if request.POST[key].strip() == "" and key != "upload":
-            print("error ==" + key)
             errors.append(key)
             blank = "1"
 

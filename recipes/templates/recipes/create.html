@@ -13,7 +13,7 @@
     <fieldset>
         <script type="text/javascript"> var formDataJson = JSON.parse('{{ formDataJson|escapejs }}'); </script>
         <script type="text/javascript"> var blank = JSON.parse('{{ blank|escapejs }}') </script>
-        <script src="{% static 'recipes/js/time.js' %}" defer></script>
+        <script type="text/javascript"> var jpeg = JSON.parse('{{ jpeg|escapejs }}') </script>
         <legend><h1>New Recipe</h1></legend>
         <div class="form-group">
             <label for="title">Title</label>
