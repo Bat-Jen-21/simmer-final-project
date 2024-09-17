@@ -11,7 +11,9 @@ function enter(event){
 }
 
 function remove(event){
-    let toRemove = document.getElementById(event.srcElement.dataset.assosiatedElement);
+    src = event.srcElement
+    //let toRemove = document.getElementById(event.srcElement.dataset.assosiatedElement);
+    let toRemove = src.closest("#item")
     toRemove.remove()
 }
 
