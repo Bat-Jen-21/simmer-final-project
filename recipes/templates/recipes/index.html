@@ -12,7 +12,8 @@
 
     {% else %}
         <p>You are not logged in</p>
-        <a href="{% url 'login' %}">Log In</a>
+        <dd><a href="{% url 'login' %}">Log In</a></dd>
+        <dd><a href="{% url 'password_reset' %}">Reset Password</a></dd>
     {% endif %}
 {% endblock %}
 

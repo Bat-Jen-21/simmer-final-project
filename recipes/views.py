@@ -143,7 +143,8 @@ def iSearch(request):
     url_parameter = request.GET.get("q")
 
     if url_parameter:
-        recipes = Recipe.objects.filter(Q(title__startswith=url_parameter) | Q(recipe_ingredient__ingredient__name__startswith=url_parameter))
+        recipes = Recipe.objects.filter(Q(title__istartswith=url_parameter) | Q(recipe_ingredient__ingredient__name__istartswith=url_parameter)).distinct()
+        print(recipes)
     else:
         recipes = Recipe.objects.all()
     
