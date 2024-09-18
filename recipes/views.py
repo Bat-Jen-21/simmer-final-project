@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.http import Http404, HttpRequest, JsonResponse
+from django.http import Http404, HttpRequest, JsonResponse, HttpResponseForbidden
 from .models import Recipe, Recipe_Ingredient, Ingredient
 from django.urls import reverse
 import json
@@ -165,3 +165,13 @@ def iSearch(request):
 def account(request):
     print(request.user)
     return render(request, "recipes/account.html", context={"account": request.user})
+
+def delete(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    print(request.user.pk)
+    print(recipe.author.pk)
+    if not recipe or request.user.pk != recipe.author.pk:
+        return (HttpResponseForbidden("Unable to access this recipe"))
+
+    else:
+        return render(request, "recipes/delete.html", context={"recipe": recipe})

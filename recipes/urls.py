@@ -15,7 +15,8 @@ urlpatterns = [
     #Search for ingredients
     path("iSearch/", views.iSearch, name="i_search"),
     #modify user account
-    path("account/", views.account, name="account")
-    
+    path("account/", views.account, name="account"),
+    #Delete a recipe
+    path("<int:recipe_id>/delete", views.delete, name="delete"),
 ]
 

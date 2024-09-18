@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="delete-page">
+        <form method="post">
+            {% csrf_token %}
+            <p class="dText">Are you sure you would like to delete:</p>
+            <p class="dText">{{ recipe.title }}</p>
+            <image style="width:100%" src="{{recipe.image.url}}">
+            <button type="submit" style="align-self:center" class="btn">Delete</button>
+        </form>
+        
+    </div>
+{% endblock %}
