@@ -47,7 +47,11 @@
                 </div>
 
                 {% if recipe.author.pk == request.user.id %}
-                    <button class="btn">Delete Recipe</button>
+                    <div class="d">
+                        <a href="{% url 'delete' recipe.id %}">
+                            <button class="btn btn-sm dButton">Delete Recipe</button>
+                        </a>
+                    </div>
                 {% endif %}
         </div>
              

@@ -2,13 +2,21 @@
 
 {% block content %}
     <div class="delete-page">
-        <form method="post">
+        <form method="post" action="{% url 'delete' recipe.id %}">
             {% csrf_token %}
             <p class="dText">Are you sure you would like to delete:</p>
-            <p class="dText">{{ recipe.title }}</p>
-            <image style="width:100%" src="{{recipe.image.url}}">
-            <button type="submit" style="align-self:center" class="btn">Delete</button>
+            <div class="row">
+                <div class="col-6">
+                    <image style="width:100%; height:auto" src="{{recipe.image.url}}">
+                </div>
+                <div class="col-6">
+                    <dd><p class="dText">{{ recipe.title }}</p></dd>
+                    <dd><p class="dText">{{ recipe.description }}</p></dd>
+                    <div class="d">
+                        <button type="submit" style="align-self:center" class="btn dButton">Delete</button>
+                    </div>
+                </div>    
+            </div>
         </form>
-        
     </div>
 {% endblock %}

@@ -44,15 +44,11 @@ def view_recipe(request, recipe_id):
     # Join in the ingredients table using the django ORM chain query to get the names of the ingredients
     # Modify the result to remove trailing zeros
     recipe_ingredients = Recipe_Ingredient.objects.filter(recipe=recipe).select_related("ingredient")
-    print(recipe_ingredients)
     def remove_trailing_zeros(n):
         return str(float(n)).rstrip("0").rstrip(".")
     
     for ri in recipe_ingredients:
         ri.quantity = remove_trailing_zeros(ri.quantity)
-
-    for ri in recipe_ingredients:
-        print(ri.ingredient.name)
 
     context = {
         "recipe": recipe,
@@ -92,7 +88,6 @@ def create_submit(request):
     timeH = int(request.POST.get("timeH"))
     timeM = int(request.POST.get("timeM"))
 
-    print(instructions)
     for i in range(len(ingredients)):
         ingredients[i] = json.loads(ingredients[i])
 
@@ -112,7 +107,6 @@ def create_submit(request):
 
     
     if len(errors) > 0 or jpeg == "1" or blank == "1":
-        print("REDIRECTING")
         # request.session["errors"] = errors
         request.session["form_data"] = {"title": title, "description": description, "instructions": instructions, "ingredients": ingredients, "serves": serves, "timeH":timeH, "timeM": timeM}
         request.session["blank"] = blank
@@ -163,15 +157,19 @@ def iSearch(request):
     return render(request, "recipes/iSearch.html", context={"recipes": recipes})
 
 def account(request):
-    print(request.user)
     return render(request, "recipes/account.html", context={"account": request.user})
 
 def delete(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    print(request.user.pk)
-    print(recipe.author.pk)
-    if not recipe or request.user.pk != recipe.author.pk:
-        return (HttpResponseForbidden("Unable to access this recipe"))
-
+    if request.POST:
+        if request.user.pk != recipe.author.pk:
+            return (HttpResponseForbidden("You do not have permissions to delete this recipe"))
+        else:
+            recipe.delete() 
+            return redirect(reverse("index"))
     else:
-        return render(request, "recipes/delete.html", context={"recipe": recipe})
+        if not recipe or request.user.pk != recipe.author.pk:
+            return (HttpResponseForbidden("Unable to access this recipe"))
+
+        else:
+            return render(request, "recipes/delete.html", context={"recipe": recipe})
