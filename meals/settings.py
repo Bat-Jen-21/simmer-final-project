@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recipes.apps.RecipesConfig',
-    'accounts'
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [
