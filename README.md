@@ -1,8 +1,7 @@
 # Simmer
 
 
-#### Video Demo: PLACEHOLDER URL
-
+#### Video Demo: https://youtu.be/ZrTUWk8IF4A?si=cMhrdF5QQfon0qFa
 
 Simmer is a web-based application that allows the user to record their own recipes and view others. There is
 Search functionality built in to filter recipes by title name or ingredients. This project is to be used for my
@@ -11,15 +10,16 @@ CS50X Final Project
 
 ## Tech Used
 
-
 To make this project I used Python, Javascript, HTML, CSS, Bootstrap, Django, SQLITE3, Git
+
 Python dependencies can be found in the requirements.txt file
 
+## Files in the project
 
-## How It Works
+For this project I have writted Python scripts, Javascript scripts, html and css files.
 
 
-### Features and their implementation
+## Features and their implementation
 
 
 **User authentication and registering**
@@ -57,37 +57,27 @@ The recipes are displayed using Bootstrap's card system customised to suit the n
 **Ingredient Search**
 
 
-This tab allows you to search through all recipes using keywords found in either their titles or ingredients list. The javascript in 'filter.js' submits an AJAX request to the database to update the page in real-time with a small delay built in to avoid overloading the server with database queries.
-
+This tab allows you to search through all recipes using keywords found in either their titles or ingredients list. The javascript in 'filter.js' uses AJAX to query the database and update the page in real-time with a small delay built in to avoid overloading the server with database queries.
 
 **Inspire Me**
 
-
 The Inspire Me button links to the view of a random recipe by any user
-
 
 **Account**
 
-
 The account tab allows the user to change their password or permanently delete their account
 
-
-
-
-### What I've learnt
+## What I've learnt
 
 
 This project has taught me many lessons and developed all I've learnt while completing CS50X. Coming from solving problem sets to managing an entire project's development was a big leap but I am now much more confident in my ability to learn new technologies and creatively solve problems at a project level.
 
 
-I also learnt the value of version control using Git and Git Hub for this project. During development, I introduced a few project-breaking bugs but using version control and being methodical with my workflow I was able to isolate these bugs and continue work on the project.
+I have also learnt the value of version control using Git and Git Hub for this project. During development, I introduced a few project-breaking bugs but using version control and being methodical with my workflow I was able to isolate these bugs and continue work on the project.
 
-
-One issue I encountered regularly was feature creep which slowly added more and more work to the project and as I got further in the scope of the project continued to grow. By the end, I was setting more reasonable expectations and making sure I implemented the current tasks before considering new features.
-
+One issue I encountered regularly was feature creep which slowly added more and more work to the project and as I got further in, the scope of the project continued to grow. By the end, I was setting more reasonable expectations and making sure I implemented the current tasks before considering new features.
 
 ### Final Notes
-
 
 Thank you to the CS50 team for making such a valuable piece of education available for free!
 

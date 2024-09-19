@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings 
 from django.contrib.auth import get_user_model
 
-# Create your models here.
+
 User = get_user_model()
 # Recipe Model
 class Recipe(models.Model):
@@ -58,7 +58,3 @@ class Recipe_Ingredient(models.Model):
         m = [m[1] for m in cls.MEASUREMENT_CHOICES]
         return m
 
-
-# Make an authors table that can refence a users table
-
-# Image table
