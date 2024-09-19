@@ -56,8 +56,6 @@ The recipes are displayed using Bootstrap's card system customised to suit the n
 
 **Ingredient Search**
 
-
-<<<<<<< HEAD
 This tab allows you to search through all recipes using keywords found in either their titles or ingredients list. The javascript in 'filter.js' uses AJAX to query the database and update the page in real-time with a small delay built in to avoid overloading the server with database queries.
 
 **Inspire Me**
