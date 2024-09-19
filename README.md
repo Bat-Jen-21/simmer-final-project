@@ -13,6 +13,7 @@ CS50X Final Project
 
 
 To make this project I used Python, Javascript, HTML, CSS, Bootstrap, Django, SQLITE3, Git
+
 Python dependencies can be found in the requirements.txt file
 
 
